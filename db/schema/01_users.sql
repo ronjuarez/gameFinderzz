@@ -1,7 +1,43 @@
 -- Drop and recreate Users table (Example)
 
 DROP TABLE IF EXISTS users CASCADE;
+DROP TABLE IF EXISTS games CASCADE;
+DROP TABLE IF EXISTS messages CASCADE;
+DROP TABLE IF EXISTS favorites CASCADE;
+
 CREATE TABLE users (
   id SERIAL PRIMARY KEY NOT NULL,
-  name VARCHAR(255) NOT NULL
+  name VARCHAR(255) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  password VARCHAR(255) NOT NULL
 );
+
+CREATE TABLE games (
+  id SERIAL PRIMARY KEY NOT NULL,
+  owner_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  category VARCHAR(255) NOT NULL,
+  title VARCHAR(255) NOT NULL,
+  description TEXT NOT NULL,
+  cost_in_cents INTEGER NOT NULL,
+  thumbnail_photo_url VARCHAR(255) NOT NULL,
+  cover_photo_url VARCHAR(255) NOT NULL,
+  is_active BOOLEAN NOT NULL DEFAULT TRUE,
+  created_at TIMESTAMP
+);
+
+CREATE TABLE messages (
+  id SERIAL PRIMARY KEY NOT NULL,
+  title VARCHAR(255) NOT NULL,
+  text VARCHAR(255) NOT NULL,
+  game_id INTEGER REFERENCES games(id) ON DELETE CASCADE,
+  shopper_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  created_at TIMESTAMP
+);
+
+CREATE TABLE favorites (
+  id SERIAL PRIMARY KEY NOT NULL,
+  game_id INTEGER REFERENCES games(id) ON DELETE CASCADE,
+  shopper_id INTEGER REFERENCES users(id) ON DELETE CASCADE
+);
+
+ 

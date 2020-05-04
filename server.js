@@ -50,6 +50,19 @@ app.get("/", (req, res) => {
   res.render("index");
 });
 
+app.get("/:gameid", (req, res) => {
+  const {gameid} = req.params;
+  res.render("game_show");
+});
+
+app.get("/new", (req, res) => {
+  res.render("game_new");
+});
+
+app.post("/", (req, res) => {
+  res.render("game_show");
+})
+
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
 });
