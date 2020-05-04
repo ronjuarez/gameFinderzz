@@ -53,11 +53,11 @@ app.use("/api/widgets", widgetsRoutes(db));
 // Warning: avoid creating more routes in this file!
 // Separate them into separate routes files (see above).
 app.get("/", (req, res) => {
-  const userID = req.session['userid'];
-  if (!userID) {
-    res.redirect("/login")
-    return;
-  }
+  // const userID = req.session['userid'];
+  // if (!userID) {
+  //   res.redirect("/login")
+  //   return;
+  // }
   res.render("index");
 });
 
@@ -75,6 +75,7 @@ app.post('/logout', (req, res) => {
 
 app.get("/games/:gameid", (req, res) => {
   const userID = req.session['userid'];
+  const user = getUser(userID) 
   if (!userID) {
     res.redirect("/login")
     return;
@@ -82,7 +83,7 @@ app.get("/games/:gameid", (req, res) => {
   const {gameID} = req.params;
 
   getGame(gameID);
-  let templateVars = {  };
+  let templateVars =  { user: user  };
   res.render("game_show");
 });
 
@@ -120,7 +121,7 @@ app.post("/games/:gameID/delete", (req, res) => {
   // add conditional statement so only correct user can delete game
   deleteGame(userID, gameID); // palce holder. will need to crearte function
 
-  res.redirect('index');
+  res.redirect('/');
 });
 
 app.post("/games/:gameID", (req, res) => {
@@ -130,7 +131,7 @@ app.post("/games/:gameID", (req, res) => {
   // need sql update/ set to update values submitted through form
   updateGame(userID, gameID); // this need to be set up
 
-  res.redirect('game_show');
+  res.redirect(`/games/:${gameID}`);
 });
 
 app.get('/users/:userID/favorites', (req, res) => {
@@ -149,10 +150,9 @@ app.post('/favorites', (req, res) => {
   result ? deleteFavorite(gameID, userID) : addToFavorites(gameID,userID);
 
   if (source === 'thumbnail') {
-   
-    ;
+    res.redirect('/');
   } else {
-   res.redirect('/games/:gameID');
+    res.redirect(`/games/${gameID}`);
   }
 // its some kind of toggle that passes selected gameid
 //  to users favorite list
@@ -174,7 +174,7 @@ app.get('/users/:userID/inbox', (req, res) => {
 app.post('/users/:userID/inbox', (req, res) => {
   sendMessage(userID, message); // to be written, will send message to messages table in DB for specific user
 
-  res.redirect('/inbox');
+  res.redirect(`/users/${userID}/inbox`);
 });
 
 app.listen(PORT, () => {

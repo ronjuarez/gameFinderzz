@@ -1,20 +1,19 @@
 <header>
   <nav class="navbar navbar-expand-md navbar-dark bg-success">
-    <a class="navbar-brand" href="/urls">FryApp</a>
+    <a class="navbar-brand" href="/">FryApp</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
-        <a class="nav-item nav-link" href="/new">Post a new ad</a>
-        <a class="nav-item nav-link" href="/urls/new">Create New URL</a>
+        <a class="nav-item nav-link" href="/games/new">Post a new ad</a>
+        <a class="nav-item nav-link" href="/users/<%= user.userID %>/favorites">Favorites</a>
         <% if(user){ %>
           <form method="POST" action="/logout">
             <a class="navbar-brand">Logged in as: <%= user.email %></a>
             <button type="submit" class="btn btn-primary">Logout</button>
           </form>
-        <% } else { %>  
-          <a class="nav-item nav-link" href="/register">Register Here!</a>
+        <% } else { %> 
           <a class="nav-item nav-link" href="/login">Already Registered? Log In Here!</a>
        <% } %>
       </div>
