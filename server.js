@@ -9,6 +9,7 @@ const bodyParser = require("body-parser");
 const sass       = require("node-sass-middleware");
 const app        = express();
 const morgan     = require('morgan');
+const cookieSession = require('cookie-session');
 
 // PG database client/connection setup
 const { Pool } = require('pg');
@@ -20,6 +21,11 @@ db.connect();
 // 'dev' = Concise output colored by response status for development use.
 //         The :status token will be colored red for server error codes, yellow for client error codes, cyan for redirection codes, and uncolored for all other codes.
 app.use(morgan('dev'));
+
+app.use(cookieSession({
+  name: 'session',
+  keys: ['key1']
+}));
 
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -47,21 +53,129 @@ app.use("/api/widgets", widgetsRoutes(db));
 // Warning: avoid creating more routes in this file!
 // Separate them into separate routes files (see above).
 app.get("/", (req, res) => {
+  const userID = req.session['userid'];
+  if (!userID) {
+    res.redirect("/login")
+    return;
+  }
   res.render("index");
 });
 
-app.get("/:gameid", (req, res) => {
-  const {gameid} = req.params;
+// login button/ form on ejs                          should method=POST to action=('/login')
+app.get('/login/:userID', (req, res) => {  
+  req.session.user_id = [req.params.userID];
+
+  res.redirect('index');
+});
+
+app.post('/logout', (req, res) => {
+ req.session = null;
+ res.redirect('/');
+})
+
+app.get("/games/:gameid", (req, res) => {
+  const userID = req.session['userid'];
+  if (!userID) {
+    res.redirect("/login")
+    return;
+  }
+  const {gameID} = req.params;
+
+  getGame(gameID);
+  let templateVars = {  };
   res.render("game_show");
 });
 
-app.get("/new", (req, res) => {
+app.get("/games/new", (req, res) => {
+  const userID = req.session['userid'];
+  if (!userID) {
+    res.redirect("/login")
+    return;
+  }
   res.render("game_new");
 });
 
-app.post("/", (req, res) => {
-  res.render("game_show");
-})
+app.post("/games", (req, res) => {
+  const userID = req.session['userid'];
+  if (!userID) {
+    res.redirect("/login")
+    return;
+  }
+  
+  const { newGame } = req.body;
+  const result = addNewGame(userID, newGame); // will need to create function. currently placeholder. adds ad to games db
+  
+  let templateVars = { userID: userID, body : result} // try elegant shorthand
+  res.redirect(`/games/${gameID}`);
+});
+
+app.post("/games/:gameID/delete", (req, res) => {
+  const userID = req.session['userid'];
+  if (!userID) {
+    res.redirect("/login")
+    return;
+  }
+  const { gameID } = req.params;
+
+  // add conditional statement so only correct user can delete game
+  deleteGame(userID, gameID); // palce holder. will need to crearte function
+
+  res.redirect('index');
+});
+
+app.post("/games/:gameID", (req, res) => {
+  const userID = req.session['userID'];
+  const { gameID } = req.params;
+
+  // need sql update/ set to update values submitted through form
+  updateGame(userID, gameID); // this need to be set up
+
+  res.redirect('game_show');
+});
+
+app.get('/users/:userID/favorites', (req, res) => {
+  const userID = req.session['userID'];
+  getFavorites(userID);
+  
+  res.render('favorites');
+});
+
+app.post('/favorites', (req, res) => {
+  const userID = req.session('userID');
+  const { gameID } = req.body
+  const { source } = req.body
+  
+  const result = isFavorite(gameID,userID);
+  result ? deleteFavorite(gameID, userID) : addToFavorites(gameID,userID);
+
+  if (source === 'thumbnail') {
+   
+    ;
+  } else {
+   res.redirect('/games/:gameID');
+  }
+// its some kind of toggle that passes selected gameid
+//  to users favorite list
+// we want this function to res
+  
+});
+
+app.get('/users/:userID/inbox', (req, res) => {
+  const userID = req.session['userid'];
+  if (!userID) {
+    res.redirect("/login");
+    return;
+  }
+  fetchMessages(userID, messageID); // to be written, will fetch messages from messages table for specific user
+  
+  res.render('inbox');
+});
+
+app.post('/users/:userID/inbox', (req, res) => {
+  sendMessage(userID, message); // to be written, will send message to messages table in DB for specific user
+
+  res.redirect('/inbox');
+});
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
