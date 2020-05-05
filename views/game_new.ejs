@@ -1,1 +1,56 @@
-<!-- text fields for every property of the game that is to be added and a submit button -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>FRYapp - Add New Post</title>
+
+    <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
+    <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
+
+    <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
+    <script type="text/javascript" src="/scripts/app.js"></script>
+  </head>
+
+  <%- include('partials/_header') %>
+
+  <body>
+    <form action="/games" method="post" id="new-game-form" class="new-game-form">
+      <div class="new-game-form__field-wrapper">
+        <label for="new-game-form__title">Game Title</label>
+        <input type="text" name="title" placeholder="Title" id="new-game-form__title">
+      </div>
+
+      <div class="new-game-form__field-wrapper">
+        <label form="new-game-form_category">Select a Game Category:</label>
+        <select id="new-game-form__category" name ="category">
+          <option value="nintendo-switch">Nintendo Switch</option>
+          <option value="nintendo-3ds">Nintendo 3DS</option>
+          <option value="nintendo-xbox-one">XBOX one</option>
+          <option value="pc">PC</option>
+          <option value="sony-ps4">Sony PS4</option>
+          <option value="retro">Retro</option>
+        </select>
+      </div>
+
+      <div class="new-game-form__field-wrapper">
+        <label for="new-game-form__description">Description</label>
+        <textarea placeholder="Description" name="description" id="game-form__description" cols="30" rows="10"></textarea>
+      </div>
+
+      <div class="new-game-form__field-wrapper">
+        <label for="new-game-form__cost">List Price:</label>
+        <input placeholder="Cost Per Night" type="number" name="cost_per_night" id="new-game-form__cost">
+      </div>
+
+      <div class="new-game-form__field-wrapper">
+        <label for="new-game-form__thumbnail">Thumbnail Image</label>
+        <input placeholder="Thumbnail Image" type="text" name="thumbnail_photo_url" id="new-game-form__thumbnail">
+      </div>
+
+      <div class="new-game-form__field-wrapper">
+        <button>Create</button>
+        <a id="game-form__cancel" href="#">Cancel</a>
+      </div>
+  </form>
+</body>

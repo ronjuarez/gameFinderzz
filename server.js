@@ -62,7 +62,7 @@ app.get("/", (req, res) => {
 });
 
 // login button/ form on ejs                          should method=POST to action=('/login')
-app.get('/login/:userID', (req, res) => {  
+app.get('/login/:userID', (req, res) => {
   req.session.user_id = [req.params.userID];
 
   res.redirect('index');
@@ -75,7 +75,7 @@ app.post('/logout', (req, res) => {
 
 app.get("/games/:gameid", (req, res) => {
   const userID = req.session['userid'];
-  const user = getUser(userID) 
+  const user = getUser(userID)
   if (!userID) {
     res.redirect("/login")
     return;
@@ -102,12 +102,17 @@ app.post("/games", (req, res) => {
     res.redirect("/login")
     return;
   }
-  
-  const { newGame } = req.body;
-  const result = addNewGame(userID, newGame); // will need to create function. currently placeholder. adds ad to games db
-  
-  let templateVars = { userID: userID, body : result} // try elegant shorthand
-  res.redirect(`/games/${gameID}`);
+
+  addNewGame({...req.body, owner_id: userID})
+  .then(newGame => {
+    res.send(newGame);
+  })
+  .catch(e => {
+    console.error(e);
+    res.send(e)
+  })
+
+  res.redirect(`/games/${gameID}`); //NOT SURE HOW TO PASS ALONG THE GAME ID OF THE NEWLY CREATED GAME FOR REDIRECT
 });
 
 app.post("/games/:gameID/delete", (req, res) => {
@@ -137,7 +142,7 @@ app.post("/games/:gameID", (req, res) => {
 app.get('/users/:userID/favorites', (req, res) => {
   const userID = req.session['userID'];
   getFavorites(userID);
-  
+
   res.render('favorites');
 });
 
@@ -145,7 +150,7 @@ app.post('/favorites', (req, res) => {
   const userID = req.session('userID');
   const { gameID } = req.body
   const { source } = req.body
-  
+
   const result = isFavorite(gameID,userID);
   result ? deleteFavorite(gameID, userID) : addToFavorites(gameID,userID);
 
@@ -157,7 +162,7 @@ app.post('/favorites', (req, res) => {
 // its some kind of toggle that passes selected gameid
 //  to users favorite list
 // we want this function to res
-  
+
 });
 
 app.get('/users/:userID/inbox', (req, res) => {
@@ -167,7 +172,7 @@ app.get('/users/:userID/inbox', (req, res) => {
     return;
   }
   fetchMessages(userID, messageID); // to be written, will fetch messages from messages table for specific user
-  
+
   res.render('inbox');
 });
 
