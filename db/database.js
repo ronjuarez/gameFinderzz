@@ -6,12 +6,12 @@ db.connect();
 const pool = require('./index');
 /// Users
 
-const getUser = function(user) {
+const getUser = function(id) {
   return pool.query(`
     SELECT *
     FROM users
-    WHERE email = $1;
-  `, [email])
+    WHERE id = $1;
+  `, [id])
   .then(res => res.rows[0])
   .catch(err => {
     console.log('error message', err.stack);
@@ -41,7 +41,10 @@ const getGame = function(gameID) {
     FROM games
     WHERE id = $1;
   `, [`${gameID}`])
-  .then(res => res.rows[0])
+  .then(res => {
+    console.log(res.rows[0])
+    return res.rows[0];
+  })
   .catch(err => {
     console.log('error message', err.stack);
     return null;
