@@ -53,19 +53,29 @@ app.use("/api/widgets", widgetsRoutes(db));
 // Warning: avoid creating more routes in this file!
 // Separate them into separate routes files (see above).
 app.get("/", (req, res) => {
-  // const userID = req.session['userid'];
+  const userID = req.session['userid'];
   // if (!userID) {
   //   res.redirect("/login")
   //   return;
   // }
-  res.render("index");
+  res.render("index", {user: userID});
 });
 
 // login button/ form on ejs                          should method=POST to action=('/login')
 app.get('/login/:userID', (req, res) => {  
   req.session.user_id = [req.params.userID];
 
-  res.redirect('index');
+  res.redirect('/');
+});
+
+app.get('/login', (req, res) => {
+  const userID = req.session['userid'];
+  res.render("login");
+});
+
+app.post('/login', (req, res) => {
+  const userID = req.session['userid'];
+  res.redirect("/");
 });
 
 app.post('/logout', (req, res) => {
