@@ -15,14 +15,13 @@ CREATE TABLE users (
 CREATE TABLE games (
   id SERIAL PRIMARY KEY NOT NULL,
   owner_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
-  category VARCHAR(255) NOT NULL,
   title VARCHAR(255) NOT NULL,
+  category VARCHAR(255) NOT NULL,
   description TEXT NOT NULL,
-  cost_in_cents INTEGER NOT NULL,
-  thumbnail_photo_url VARCHAR(255) NOT NULL,
-  cover_photo_url VARCHAR(255) NOT NULL,
+  cost INTEGER NOT NULL,
+  photo VARCHAR(255) NOT NULL,
   is_active BOOLEAN NOT NULL DEFAULT TRUE,
-  created_at TIMESTAMP
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE messages (
@@ -40,4 +39,3 @@ CREATE TABLE favorites (
   shopper_id INTEGER REFERENCES users(id) ON DELETE CASCADE
 );
 
- 
