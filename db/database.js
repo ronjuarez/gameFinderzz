@@ -30,6 +30,34 @@ const fetchGames = function() {
 }
 exports.fetchGames = fetchGames;
 
+const getGame = function(gameID) {
+  return pool.query(`
+    SELECT *
+    FROM games
+    WHERE id = $1;
+  `, [`${gameID}`])
+  .then(res => res.rows[0])
+  .catch(err => {
+    console.log('error message', err.stack);
+    return null;
+  })
+
+  exports.getGame = getGame;
+
+  const addNewGame =  function(userID, newGame) {
+    return pool.query(`
+    INSERT INTO users (name, email, password)
+    VALUES ($1, $2, $3)
+    RETURNING *;
+    `, [`${user.name}`, `${user.email}`, `${user.password}`])
+    .then(res => res.rows[0])
+    .catch(err => {
+      console.log('error message', err.stack);
+      return null;
+    })
+  }
+  exports.addUser = addNewGame;
+
 const isFavorite = function(id) {
   return pool.query(`
     SELECT *
@@ -42,7 +70,7 @@ const isFavorite = function(id) {
     return null;
   })
 }
-exports.getUserWithId = getUserWithId;
+exports.isFavorite = isFavorite;
 
 const deleteFavorite = function(gameID, userID) {
   return pool.query(`
@@ -56,7 +84,7 @@ const deleteFavorite = function(gameID, userID) {
     return null;
   })
 }
-exports.getUserWithId = deleteFavorite;
+exports.deleteFavorite = deleteFavorite;
 
 const addFavorite =  function(userID, gameID) {
   return pool.query(`
@@ -70,7 +98,7 @@ const addFavorite =  function(userID, gameID) {
     return null;
   })
 }
-exports.addUser = addNewGame;
+exports.addFavorite = addFavorite;
 
 const fetchMessages =  function(userID, messageID) {
   return pool.query(`
@@ -118,19 +146,7 @@ const addUser =  function(user) {
 }
 exports.addUser = addUser;
 
-const addNewGame =  function(userID, newGame) {
-  return pool.query(`
-  INSERT INTO users (name, email, password)
-  VALUES ($1, $2, $3)
-  RETURNING *;
-  `, [`${user.name}`, `${user.email}`, `${user.password}`])
-  .then(res => res.rows[0])
-  .catch(err => {
-    console.log('error message', err.stack);
-    return null;
-  })
-}
-exports.addUser = addNewGame;
+
 
 
 const updateGame = function(userID, gameID) {
@@ -181,15 +197,7 @@ exports.getAllReservations = getAllReservations;
  * @param {*} limit The number of results to return.
  * @return {Promise<[{}]>}  A promise to the properties.
  */
-const getGame = function(gameid) {
-  // 1 Setup an array to hold any parameters that may be available for the query.
-  const queryParams = [];
-  // 2 Start the query with all information that comes before the WHERE clause.
-  let queryString = `
-  SELECT properties.*, avg(property_reviews.rating) as average_rating
-  FROM properties
-  JOIN property_reviews ON properties.id = property_id
-  `;
+
 
   /* 3Check if a city has been passed in as an option. Add the city to the params array and create a WHERE clause for the city.
 We can use the length of the array to dynamically get the $n placeholder number. Since this is the first parameter, it will be $1.
@@ -219,7 +227,7 @@ The % syntax for the LIKE clause must be part of the parameter, not the query. *
 
   // 4 Add any query that comes after the WHERE clause.
   queryString += `GROUP BY properties.id`
-  
+
   if (options.minimum_rating){
       queryParams.push(`${options.minimum_rating}`)
       queryString += ` HAVING avg(rating) >= $${queryParams.length} `;
