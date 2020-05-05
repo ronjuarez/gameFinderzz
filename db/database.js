@@ -41,8 +41,32 @@ const getGame = function(gameID) {
     console.log('error message', err.stack);
     return null;
   })
-
+}
   exports.getGame = getGame;
+
+  const addNewGame =  function(newGame) {
+    return pool.query(`
+      INSERT INTO games (
+        owner_id,
+        title,
+        category,
+        description,
+        cost,
+        thumbnail_photo_url,
+      )
+      VALUES ($1, $2, $3, $4, $5, $6)
+      RETURNING *;
+    `, [
+      newGame.owner_id,
+      newGame.category,
+      newGame.title,
+      newGame.description,
+      newGame.cost,
+      newGame.thumbnail_photo_url
+      ])
+      .then(res => res.rows[0]);
+  }
+  exports.addNewGame = addNewGame;
 
   const addNewGame =  function(userID, newGame) {
     return pool.query(`
@@ -61,7 +85,7 @@ const getGame = function(gameID) {
 const isFavorite = function(id) {
   return pool.query(`
     SELECT *
-    FROM users
+    FROM favorites
     WHERE id = $1;
   `, [`${id}`])
   .then(res => res.rows[0])
@@ -127,11 +151,8 @@ const sendMessage =  function(userID, messageID) {
   })
 }
 exports.addUser = sendMessage;
-/**
- * Add a new user to the database.
- * @param {{name: string, password: string, email: string}} user
- * @return {Promise<{}>} A promise to the user.
- */
+
+
 const addUser =  function(user) {
   return pool.query(`
   INSERT INTO users (name, email, password)
@@ -145,6 +166,7 @@ const addUser =  function(user) {
   })
 }
 exports.addUser = addUser;
+
 
 
 
@@ -192,66 +214,60 @@ exports.getAllReservations = getAllReservations;
 /// Properties
 
 /**
- * Get all properties.
- * @param {{}} options An object containing query options.
- * @param {*} limit The number of results to return.
- * @return {Promise<[{}]>}  A promise to the properties.
- */
+//  * Get all properties.
+//  * @param {{}} options An object containing query options.
+//  * @param {*} limit The number of results to return.
+//  * @return {Promise<[{}]>}  A promise to the properties.
+//  */
 
 
-  /* 3Check if a city has been passed in as an option. Add the city to the params array and create a WHERE clause for the city.
-We can use the length of the array to dynamically get the $n placeholder number. Since this is the first parameter, it will be $1.
-The % syntax for the LIKE clause must be part of the parameter, not the query. */
-  if (options.city) {
-    queryParams.push(`%${options.city}%`);
-    queryString += `WHERE city LIKE $${queryParams.length} `;
-  }
+//   /* 3Check if a city has been passed in as an option. Add the city to the params array and create a WHERE clause for the city.
+// We can use the length of the array to dynamically get the $n placeholder number. Since this is the first parameter, it will be $1.
+// The % syntax for the LIKE clause must be part of the parameter, not the query. */
+//   if (options.city) {
+//     queryParams.push(`%${options.city}%`);
+//     queryString += `WHERE city LIKE $${queryParams.length} `;
+//   }
 
-  if (options.minimum_price_per_night) {
-    queryParams.push(`${options.minimum_price_per_night}`)
-    if (queryParams.length === 1) {
-      queryString += `WHERE properties.cost_per_night/100 >= $${queryParams.length} `;
-    } else {
-      queryString += `AND properties.cost_per_night/100 >= $${queryParams.length} `;
-    }
-  }
+//   if (options.minimum_price_per_night) {
+//     queryParams.push(`${options.minimum_price_per_night}`)
+//     if (queryParams.length === 1) {
+//       queryString += `WHERE properties.cost_per_night/100 >= $${queryParams.length} `;
+//     } else {
+//       queryString += `AND properties.cost_per_night/100 >= $${queryParams.length} `;
+//     }
+//   }
 
-  if (options.maximum_price_per_night) {
-    queryParams.push(`${options.maximum_price_per_night}`)
-    if (queryParams.length === 1) {
-      queryString += `WHERE properties.cost_per_night/100 <= $${queryParams.length} `;
-    } else {
-      queryString += `AND properties.cost_per_night/100 <= $${queryParams.length} `;
-    }
-  }
+//   if (options.maximum_price_per_night) {
+//     queryParams.push(`${options.maximum_price_per_night}`)
+//     if (queryParams.length === 1) {
+//       queryString += `WHERE properties.cost_per_night/100 <= $${queryParams.length} `;
+//     } else {
+//       queryString += `AND properties.cost_per_night/100 <= $${queryParams.length} `;
+//     }
+//   }
 
-  // 4 Add any query that comes after the WHERE clause.
-  queryString += `GROUP BY properties.id`
+//   // 4 Add any query that comes after the WHERE clause.
+//   queryString += `GROUP BY properties.id`
 
-  if (options.minimum_rating){
-      queryParams.push(`${options.minimum_rating}`)
-      queryString += ` HAVING avg(rating) >= $${queryParams.length} `;
-    }
+//   if (options.minimum_rating){
+//       queryParams.push(`${options.minimum_rating}`)
+//       queryString += ` HAVING avg(rating) >= $${queryParams.length} `;
+//     }
 
-  queryParams.push(limit);
-  queryString += `
-  ORDER BY cost_per_night
-  LIMIT $${queryParams.length};
-  `;
-  // 5 Run the query.
-  return pool.query(queryString, queryParams)
-  .then(res => res.rows);
-}
-exports.getAllProperties = getAllProperties;
+//   queryParams.push(limit);
+//   queryString += `
+//   ORDER BY cost_per_night
+//   LIMIT $${queryParams.length};
+//   `;
+//   // 5 Run the query.
+//   return pool.query(queryString, queryParams)
+//   .then(res => res.rows);
+// // }
+// exports.getAllProperties = getAllProperties;
 
-
-/**
- * Add a property to the database
- * @param {{}} property An object containing all of the property details.
- * @return {Promise<{}>} A promise to the property.
- */
-const addProperty = function(property) {
-  const {owner_id, title, description, thumbnail_photo_url, cover_photo_url, cost_per_night, street, city, province, post_code, country, parking_spaces,number_of_bathrooms, number_of_bedrooms} = property;
+const addProperty = function(newGame) {
+  const {owner_id, title, description, thumbnail_photo_url, cover_photo_url, cost_per_night, street, city, province, post_code, country, parking_spaces,number_of_bathrooms, number_of_bedrooms} = newGame;
   return pool.query(`
   INSERT INTO properties (owner_id, title, description, thumbnail_photo_url, cover_photo_url, cost_per_night, street, city, province, post_code, country, parking_spaces,number_of_bathrooms, number_of_bedrooms)
   VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10,$11, $12, $13, $14)
@@ -261,7 +277,7 @@ const addProperty = function(property) {
 exports.addProperty = addProperty;
 
 const deleteGame = function(userID, gameID) {
-  const {owner_id, title, description, thumbnail_photo_url, cover_photo_url, cost_per_night, street, city, province, post_code, country, parking_spaces,number_of_bathrooms, number_of_bedrooms} = property;
+  const {owner_id, title, description, thumbnail_photo_url, cover_photo_url, cost_per_night, street, city, province, post_code, country, parking_spaces,number_of_bathrooms, number_of_bedrooms} = newGame;
   return pool.query(`
   INSERT INTO properties (owner_id, title, description, thumbnail_photo_url, cover_photo_url, cost_per_night, street, city, province, post_code, country, parking_spaces,number_of_bathrooms, number_of_bedrooms)
   VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10,$11, $12, $13, $14)

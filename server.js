@@ -113,11 +113,16 @@ app.post("/games", (req, res) => {
     return;
   }
 
-  const { newGame } = req.body;
-  const result = addNewGame(userID, newGame); // will need to create function. currently placeholder. adds ad to games db
+  addNewGame({...req.body, owner_id: userID})
+  .then(newGame => {
+    res.send(newGame);
+  })
+  .catch(e => {
+    console.error(e);
+    res.send(e)
+  })
 
-  let templateVars = { userID: userID, body : result} // try elegant shorthand
-  res.redirect(`/games/${gameID}`);
+  res.redirect(`/games/${gameID}`); //NOT SURE HOW TO PASS ALONG THE GAME ID OF THE NEWLY CREATED GAME FOR REDIRECT
 });
 
 app.post("/games/:gameID/delete", (req, res) => {
