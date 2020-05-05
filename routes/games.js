@@ -38,7 +38,7 @@ module.exports = (db) => {
 
     getGame(gameID);
     getUser(user);
-    let templateVars =  { user: user };
+    let templateVars =  { newGame };
     res.render("game_show", templateVars);
   });
 
