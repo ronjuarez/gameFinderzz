@@ -104,8 +104,10 @@ module.exports = (db) => {
     .then(user => {
       database.fetchMessages(userID)
       .then(messages => {
+        console.log(messages)
         let templateVars = { user, messages }
-        res.render('message_inbox', templateVars)
+        // res.render('message_inbox', templateVars)
+        res.send('OK')
     })
       .catch(e => {
         console.error(e);
@@ -113,6 +115,21 @@ module.exports = (db) => {
       })
     })
   });
+
+  router.post("/messages/:gameID", (req, res) => {
+    const userID = req.session['userid'];
+    const { gameID  } = req.params;
+
+    database.sendMessage({...req.body, shopper_id: userID, game_id: gameID })
+    .then(newMessage => {
+      res.redirect(`/messages/${newMessage.game_id}`)
+    })
+    .catch(e => {
+      console.error(e);
+      res.send(e)
+    })
+  });
+
   router.get('/messages/:gameID', (req, res) => {
     const { gameID } = req.params;
     const userID = req.session['userID']
@@ -131,3 +148,5 @@ module.exports = (db) => {
     })
   return router;
 };
+
+

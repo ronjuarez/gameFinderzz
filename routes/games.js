@@ -58,22 +58,15 @@ module.exports = (db) => {
 
   router.post("/games", (req, res) => {
     const userID = req.session['userid'];
-    // if (!userID) {
-    //   res.redirect("/login")
-    //   return;
-    // }
-    console.log(req.body);
 
     database.addNewGame({...req.body, owner_id: userID})
     .then(newGame => {
-      // res.send(newGame);
-      res.redirect(`/games/${newGame.id}`)
+    res.redirect(`/games/${newGame.id}`)
     })
     .catch(e => {
       console.error(e);
       res.send(e)
     })
-
   });
 
   router.post("/games/:gameID/delete", (req, res) => {
