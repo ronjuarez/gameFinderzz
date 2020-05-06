@@ -33,7 +33,6 @@ module.exports = (db) => {
     //   res.redirect("/login")
     //   return;
     // }
-    console.log(req.body);
     database.getUserByID(userID)
     .then(user => {
       if (req.body.filter === 'ascending') {

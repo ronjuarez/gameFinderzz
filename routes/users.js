@@ -48,7 +48,6 @@ module.exports = (db) => {
     .then(user => {
       database.fetchGames()
       .then(games => {
-        console.log(games);
         res.render("index",  {user, games})
       })
       .catch(err => {
@@ -71,11 +70,9 @@ module.exports = (db) => {
   });
 
   router.post('/login', (req, res) => {
-    console.log('req body', req.body);
     const {email} = req.body;
     database.getUser(email)
     .then(user => {
-      console.log('email', user.email);
       req.session['userid'] = user.id;
       res.redirect("/");
     })
@@ -106,8 +103,7 @@ module.exports = (db) => {
       .then(messages => {
         console.log(messages)
         let templateVars = { user, messages }
-        // res.render('message_inbox', templateVars)
-        res.send('OK')
+        res.render('message_inbox', templateVars)
     })
       .catch(e => {
         console.error(e);
