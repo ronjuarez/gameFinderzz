@@ -1,8 +1,9 @@
-INSERT INTO users (
+    INSERT INTO users (
     name, email, password)
     VALUES (
     'Admin Admin', 'admin@admin.ca', 'admin');
     )
+    INSERT INTO users (
     name, email, password)
     VALUES (
     'Devin Sanders', 'tristanjacobs@gmail.com', ' ');
@@ -114,6 +115,7 @@ INSERT INTO users (
     INSERT INTO games (
     owner_id, title, category, description, cost, photo, is_active, created_at)
     VALUES (
+<<<<<<< HEAD
     1, 'Dark Souls', 'Sony PS4', 'Dark Souls received critical acclaim, with many citing it as one of the greatest video games of all time.', 3499, 'https://upload.wikimedia.org/wikipedia/en/8/8d/Dark_Souls_Cover_Art.jpg', true, CURRENT_TIMESTAMP);
     INSERT INTO games (
     owner_id, title, category, description, cost, photo, is_active, created_at)
@@ -159,3 +161,8 @@ INSERT INTO users (
     owner_id, title, category, description, cost, photo, is_active, created_at)
     VALUES (
     12, 'GTA V', 'PC', 'Set within the fictional state of San Andreas, based on Southern California, the single-player story follows three criminals and their efforts to commit heists while under pressure from a government agency and powerful crime figures.', 1899, 'https://upload.wikimedia.org/wikipedia/en/a/a5/Grand_Theft_Auto_V.png', true, CURRENT_TIMESTAMP);
+=======
+    1, 'Microtransactional money grab', 'Sony PS4', 'Unimportant universe', 2499, 'https://images.pexels.com/photos/2088258/table-dining-room-chair-dining-area-2088258.jpeg', true, CURRENT_TIMESTAMP);
+>>>>>>> feature/sendMessageV2
+
+

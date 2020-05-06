@@ -178,11 +178,11 @@ exports.addFavorite = addFavorite;
 
 const fetchMessages =  function(userID) {
   return pool.query(`
-  SELECT * FROM messages
+  SELECT messages.*, games.title as game_title
+  FROM messages JOIN games ON  games.id = messages.game_id
   WHERE shopper_id = $1;
-
-  `, [`${userID}`])
-  .then(res => res.rows[0])
+  `, [userID])
+  .then(res => res.rows)
   .catch(err => {
     console.log('error message', err.stack);
     return null;
@@ -192,9 +192,10 @@ exports.fetchMessages = fetchMessages;
 
 const fetchGameMessages = function(userID, gameID) {
   return pool.guery(`
-  SELECT * FROM messages
+  SELECT messages.*, games.title as game_title
+  FROM messages JOIN games ON messsages.game_id = games.id
   WHERE shopper_id = $1
-  AND game_id = $2;
+  AND game_id = $2 RETURNING *;
   `, [ userID, gameID])
   .then() (res => res.rows[0])
   .catch(err => {
@@ -204,17 +205,27 @@ const fetchGameMessages = function(userID, gameID) {
 }
 exports.fetchGameMessages = fetchGameMessages;
 
-const sendMessage =  function(userID, messageID) {
+
+
+const sendMessage=  function(newMessage) {
   return pool.query(`
-  INSERT INTO users (name, email, password)
-  VALUES ($1, $2, $3)
-  RETURNING *;
-  `, [`${user.name}`, `${user.email}`, `${user.password}`])
-  .then(res => res.rows[0])
-  .catch(err => {
-    console.log('error message', err.stack);
-    return null;
-  })
+    INSERT INTO messages (
+      title,
+      text,
+      game_id,
+      shopper_id,
+      created_at
+    )
+    VALUES ($1, $2, $3, $4, $5, $6)
+    RETURNING *;
+  `, [
+    newMessage.title,
+    newMessage.text,
+    newMessage.game_id,
+    newMessage.shopper_id,
+    newMessage.created_at
+    ])
+    .then(res => res.rows[0]);
 }
 exports.sendMessage = sendMessage;
 
@@ -332,8 +343,8 @@ exports.addUser = addUser;
 // // // }
 // // exports.getAllProperties = getAllProperties;
 
-// const addProperty = function(newGame) {
-//   const {owner_id, title, description, thumbnail_photo_url, cover_photo_url, cost_per_night, street, city, province, post_code, country, parking_spaces,number_of_bathrooms, number_of_bedrooms} = newGame;
+// const addProperty = function(newMessage) {
+//   const {owner_id, title, description, thumbnail_photo_url, cover_photo_url, cost_per_night, street, city, province, post_code, country, parking_spaces,number_of_bathrooms, number_of_bedrooms} = newMessage;
 //   return pool.query(`
 //   INSERT INTO properties (owner_id, title, description, thumbnail_photo_url, cover_photo_url, cost_per_night, street, city, province, post_code, country, parking_spaces,number_of_bathrooms, number_of_bedrooms)
 //   VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10,$11, $12, $13, $14)
@@ -343,7 +354,7 @@ exports.addUser = addUser;
 // exports.addProperty = addProperty;
 
 // const deleteGame = function(userID, gameID) {
-//   const {owner_id, title, description, thumbnail_photo_url, cover_photo_url, cost_per_night, street, city, province, post_code, country, parking_spaces,number_of_bathrooms, number_of_bedrooms} = newGame;
+//   const {owner_id, title, description, thumbnail_photo_url, cover_photo_url, cost_per_night, street, city, province, post_code, country, parking_spaces,number_of_bathrooms, number_of_bedrooms} = newMessage;
 //   return pool.query(`
 //   INSERT INTO properties (owner_id, title, description, thumbnail_photo_url, cover_photo_url, cost_per_night, street, city, province, post_code, country, parking_spaces,number_of_bathrooms, number_of_bedrooms)
 //   VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10,$11, $12, $13, $14)
