@@ -45,6 +45,15 @@ module.exports = (db) => {
         console.log('error message', err.stack);
         return null;
       });
+    } else if (req.body.filter === 'descending') {
+      database.fetchGamesByPriceDesc()
+      .then(games => {
+        res.render("index",  {user, games})
+      })
+      .catch(err => {
+        console.log('error message', err.stack);
+        return null;
+      });
     }
   });
 });
