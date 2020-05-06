@@ -13,14 +13,48 @@
 
   <body>
     <%- include('partials/_header') %>
-    <h1>Hello World!</h1>
-  </body>
-  <div>
-    <% for (let game of games) { %>
-      <p><%= game.title %></p>
-      <img src=<%= game.photo %> alt="Dont buy it" style=width:300px;height:300px>
+    <h1>Pick the category or check our latest games!</h1>
+    <form action="/games/platform" method="POST">
+      <label form="platform-filter">Select a Game Category:</label>
+      <select id="platform-filter" name="category">
+        <option value="" disabled selected>Select platform</option>
+        <option value="Nintendo Switch">Nintendo Switch</option>
+        <option value="Nintendo 3DS">Nintendo 3DS</option>
+        <option value="Xbox one">XBOX one</option>
+        <option value="PC">PC</option>
+        <option value="Sony PS4">Sony PS4</option>
+        <option value="Retro">Retro</option>
+      </select>
+      <button type="submit" class="btn btn-light" id="category_filter">Filter by platform</button>
+  </form>
+    <form action="/games/filter" method="POST">
+      <label form="filter-form">Filter by price</label>
+      <select id="filter-form" name="filter">
+        <option value="" disabled selected>Select filter</option>
+        <option value="ascending">Low to High</option>
+        <option value="descending">High to Low</option>
+      </select>
+      <button type="submit" class="btn btn-light" id="price_filter">Filter by price</button>
+    </form>
+  <table>
+    <tr>
+      <% for (let game of games) { %>
+      <th>Cover Art</th>
+      <th>Title</th>
+      <th>Platform</th>
+      <th>Description</th>
+      <th>Price</th>
+    </tr>
+    <tr>
+      <td><img src=<%= game.photo %> style=width:300px;height:300px></td>
+      <td><%= game.title %></td>
+      <td><%= game.category %></td>
+      <td><%= game.description %></td>
+      <td><%= game.cost %></td>
+    </tr>
     <% } %>
-  </div>
+  </table>
+</body>
 </html>
 
 

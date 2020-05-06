@@ -26,6 +26,49 @@ module.exports = (db) => {
     res.render("game_new", {user: userID});
   });
 
+  router.post("/games/filter", (req, res) => {
+    
+      const userID = req.session['userid'];
+    // if (!userID) {
+    //   res.redirect("/login")
+    //   return;
+    // }
+    console.log(req.body);
+    database.getUserByID(userID)
+    .then(user => {
+      if (req.body.filter === 'ascending') {
+      database.fetchGamesByPriceAsc()
+      .then(games => {
+        res.render("index",  {user, games})
+      })
+      .catch(err => {
+        console.log('error message', err.stack);
+        return null;
+      });
+    }
+  });
+});
+
+router.post("/games/platform", (req, res) => {
+    
+  const userID = req.session['userid'];
+// if (!userID) {
+//   res.redirect("/login")
+//   return;
+// }
+  database.getUserByID(userID)
+  .then(user => {
+    database.fetchGamesByCategory(req.body.category)
+    .then(games => {
+      res.render("index",  {user, games})
+  })
+  .catch(err => {
+    console.log('error message', err.stack);
+    return null;
+  });
+});
+});
+
 /* THIS IS A ROUTE  */
   router.get("/games/:gameid", (req, res) => {
     const userID = req.session['userid'];

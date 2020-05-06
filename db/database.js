@@ -51,6 +51,48 @@ const fetchGames = function() {
 }
 exports.fetchGames = fetchGames;
 
+const fetchGamesByPriceAsc = function() {
+  return pool.query(`
+    SELECT *
+    FROM games
+    ORDER BY cost;
+  `)
+  .then(res => res.rows)
+  .catch(err => {
+    console.log('error message', err.stack);
+    return null;
+  })
+}
+exports.fetchGamesByPriceAsc = fetchGamesByPriceAsc;
+
+const fetchGamesByPriceDesc = function() {
+  return pool.query(`
+    SELECT *
+    FROM games
+    ORDER BY cost DESC;
+  `)
+  .then(res => res.rows)
+  .catch(err => {
+    console.log('error message', err.stack);
+    return null;
+  })
+}
+exports.fetchGamesByPriceDesc = fetchGamesByPriceDesc;
+
+const fetchGamesByCategory = function(category) {
+  return pool.query(`
+    SELECT *
+    FROM games
+    WHERE category = $1;
+  `, [`${category}`])
+  .then(res => res.rows)
+  .catch(err => {
+    console.log('error message', err.stack);
+    return null;
+  })
+}
+exports.fetchGamesByCategory = fetchGamesByCategory;
+
 const getGame = function(gameID) {
   return pool.query(`
     SELECT *
