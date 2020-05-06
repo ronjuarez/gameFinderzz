@@ -7,7 +7,7 @@
 
 const express = require('express');
 const router  = express.Router();
-
+const { getUser, fetchGames, getUserByID } = require('../db/database')
 module.exports = (db) => {
   // router.get("/", (req, res) => {
   //   db.query(`SELECT * FROM users;`)
@@ -36,7 +36,18 @@ module.exports = (db) => {
     //   res.redirect("/login")
     //   return;
     // }
-    res.render("index",  {user: userID});
+    getUserByID(userID)
+    .then(user => {
+      fetchGames()
+      .then(games => {
+        console.log(games);
+        res.render("index",  {user, games})
+      })
+      .catch(err => {
+        console.log('error message', err.stack);
+        return null;
+      })
+    })
   });
 
   // login button/ form on ejs                          should method=POST to action=('/login')
@@ -52,8 +63,18 @@ module.exports = (db) => {
   });
 
   router.post('/login', (req, res) => {
-    const userID = req.session['userid'];
-    res.redirect("/",  {user: userID});
+    console.log('req body', req.body);
+    const {email} = req.body;
+    getUser(email)
+    .then(user => {
+      console.log('email', user.email);
+      req.session['userid'] = user.id;
+      res.redirect("/");
+    })
+    .catch(err => {
+      console.log('error message', err.stack);
+      return null;
+    })
   });
 
   router.post('/logout', (req, res) => {

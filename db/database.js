@@ -6,12 +6,13 @@ db.connect();
 const pool = require('./index');
 /// Users
 
-const getUser = function(user) {
+const getUser = function(email) {
+  console.log('email is here', email);
   return pool.query(`
     SELECT *
     FROM users
     WHERE email = $1;
-  `, [email])
+  `, [`${email}`])
   .then(res => res.rows[0])
   .catch(err => {
     console.log('error message', err.stack);
@@ -20,14 +21,29 @@ const getUser = function(user) {
 }
 exports.getUser = getUser;
 
-
-const fetchGames = function() {
+const getUserByID = function(id) {
   return pool.query(`
     SELECT *
     FROM users
     WHERE id = $1;
-  `, [`${id}`])
+  `, [id])
   .then(res => res.rows[0])
+  .catch(err => {
+    console.log('error message', err.stack);
+    return null;
+  })
+}
+exports.getUserByID = getUserByID;
+
+
+const fetchGames = function() {
+  return pool.query(`
+    SELECT *
+    FROM games
+    ORDER BY created_at DESC
+    LIMIT 10;
+  `)
+  .then(res => res.rows)
   .catch(err => {
     console.log('error message', err.stack);
     return null;
@@ -141,7 +157,7 @@ const sendMessage =  function(userID, messageID) {
     return null;
   })
 }
-exports.addUser = sendMessage;
+exports.sendMessage = sendMessage;
 
 
 const addUser =  function(user) {

@@ -7,7 +7,7 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
         <a class="nav-item nav-link" href="/games/new">Post a new ad</a>
-        <% if(locals.user){ %>
+        <% if(user){ %>
         <a class="nav-item nav-link" href="/users/<%= user.userID %>/favorites">Favorites</a>
           <form method="POST" action="/logout">
             <a class="navbar-brand">Logged in as: <%= user.email %></a>

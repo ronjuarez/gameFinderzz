@@ -15,6 +15,12 @@
     <%- include('partials/_header') %>
     <h1>Hello World!</h1>
   </body>
+  <div>
+    <% for (let game of games) { %>
+      <p><%= game.title %></p>
+      <img src=<%= game.photo %> alt="Dont buy it" style=width:300px;height:300px>
+    <% } %>
+  </div>
 </html>
 
 
