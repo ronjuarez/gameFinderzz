@@ -27,7 +27,7 @@ module.exports = (db) => {
   });
 
   router.post("/games/filter", (req, res) => {
-    
+
       const userID = req.session['userid'];
     // if (!userID) {
     //   res.redirect("/login")
@@ -59,7 +59,7 @@ module.exports = (db) => {
 });
 
 router.post("/games/platform", (req, res) => {
-    
+
   const userID = req.session['userid'];
 // if (!userID) {
 //   res.redirect("/login")
@@ -92,7 +92,7 @@ router.post("/games/platform", (req, res) => {
 
     database.getGame(gameid)
     .then(game => {
-      const templateVars = { game: game }
+      const templateVars = { game: game, user: undefined }
       console.log(templateVars)
       res.render('game_show', templateVars)
     })
