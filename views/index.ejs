@@ -46,7 +46,7 @@
       <th>Price</th>
     </tr>
     <tr>
-      <td><img src=<%= game.photo %> style=width:300px;height:300px></td>
+      <td><a href="http://localhost:8080/games/<%= game.id %>"><img src=<%= game.photo %> style=width:300px;height:300px></td></a>
       <td><%= game.title %></td>
       <td><%= game.category %></td>
       <td><%= game.description %></td>
@@ -60,5 +60,5 @@
 
 <!-- load ten most recent post
 create dropdown with categories
-add a favorite button to all posts 
+add a favorite button to all posts
 implement all functions-->
