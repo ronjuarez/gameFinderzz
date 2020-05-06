@@ -20,6 +20,21 @@ const getUser = function(user) {
 }
 exports.getUser = getUser;
 
+const getUserByID = function(id) {
+  return pool.query(`
+    SELECT *
+    FROM users
+    WHERE id = $1;
+  `, [id])
+  .then(res => res.rows[0])
+  .catch(err => {
+    console.log('error message', err.stack);
+    return null;
+  })
+}
+exports.getUserByID = getUserByID;
+
+
 
 const fetchGames = function() {
   return pool.query(`
@@ -115,19 +130,33 @@ const addFavorite =  function(userID, gameID) {
 }
 exports.addFavorite = addFavorite;
 
-const fetchMessages =  function(userID, messageID) {
+const fetchMessages =  function(userID) {
   return pool.query(`
-  INSERT INTO users (name, email, password)
-  VALUES ($1, $2, $3)
-  RETURNING *;
-  `, [`${user.name}`, `${user.email}`, `${user.password}`])
+  SELECT * FROM messages
+  WHERE shopper_id = $1;
+
+  `, [`${userID}`])
   .then(res => res.rows[0])
   .catch(err => {
     console.log('error message', err.stack);
     return null;
   })
 }
-exports.addUser = fetchMessages;
+exports.fetchMessages = fetchMessages;
+
+const fetchGameMessages = function(userID, gameID) {
+  return pool.guery(`
+  SELECT * FROM messages
+  WHERE shopper_id = $1
+  AND game_id = $2;
+  `, [ userID, gameID])
+  .then() (res => res.rows[0])
+  .catch(err => {
+    console.log('error message', err.stack);
+    return null;
+  })
+}
+exports.fetchGameMessages = fetchGameMessages;
 
 const sendMessage =  function(userID, messageID) {
   return pool.query(`

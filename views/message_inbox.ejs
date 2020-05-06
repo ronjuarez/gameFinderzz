@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>FRYapp - User Inbox</title>
+
+  <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
+  <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
+  <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
+
+  <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
+  <script type="text/javascript" src="/scripts/app.js"></script>
+</head>
+  <body>
+    <%- include('partials/_header') %>
+
+    <main>
+      <table class="message-inbox">
+        <thead>
+          <tr>
+            <th scope="col">Game</th>
+            <th scope="col">Message Title</th>
+            <th scope="col">Sent On</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for (let msg of messages) { %>
+            <td><a href='/messages/<%= msg.game_id%>'> <%= msg.game_id %></a></td>
+            <td>T<%= msg.title %></td>
+            <td><%= msg.created_at%></td>
+          <%}%>
+        </tbody>
+      </table>
+    </main>
+  </body>
+</html>

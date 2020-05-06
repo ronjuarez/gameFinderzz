@@ -5,8 +5,16 @@
  * See: https://expressjs.com/en/guide/using-middleware.html#middleware.router
  */
 
+const { Pool } = require('pg');
+const dbParams = require('../lib/db.js');
+const db = new Pool(dbParams);
+db.connect();
+
+const pool = require('../db/index');
+
 const express = require('express');
 const router  = express.Router();
+const database = require('../db/database')
 
 module.exports = (db) => {
   // router.get("/", (req, res) => {
@@ -61,17 +69,6 @@ module.exports = (db) => {
    res.redirect('/');
   })
 
-  router.get('/messages', (req, res) => {
-    const userID = req.session['userid'];
-    if (!userID) {
-      res.redirect("/login");
-      return;
-    }
-    fetchMessages(userID, messageID); // to be written, will fetch messages from messages table for specific
-
-    res.render('messages');
-  });
-
 
   router.get('/favorites', (req, res) => {
     const userID = req.session['userID'];
@@ -80,11 +77,36 @@ module.exports = (db) => {
     res.render('favorites');
   });
 
-  router.post('/messages', (req, res) => {
-    sendMessage(userID, message); // to be written, will send message to messages table in DB for specific
-
-    res.redirect('/messages');
+  router.get('/messages', (req, res) => {
+    const userID = req.session['userID']
+    database.getUserByID(userID)
+    .then(user => {
+      database.fetchMessages(userID)
+      .then(messages => {
+        let templateVars = { user, messages }
+        res.render('message_inbox', templateVars)
+    })
+      .catch(e => {
+        console.error(e);
+        res.send(e)
+      })
+    })
   });
-
+  router.get('/messages/:gameID', (req, res) => {
+    const { gameID } = req.params;
+    const userID = req.session['userID']
+    database.getUserByID(userID)
+    .then(user => {
+      database.fetchGameMessages(userID, gameID)
+      .then(messages => {
+        let templateVars = { messages, user }
+        res.render('game_message', templateVars)
+      })
+    })
+      .catch(e => {
+        console.error(e);
+        res.send(e)
+      })
+    })
   return router;
 };
