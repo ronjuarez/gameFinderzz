@@ -161,23 +161,3 @@ INSERT INTO users (
     12, 'GTA V', 'PC', 'Set within the fictional state of San Andreas, based on Southern California, the single-player story follows three criminals and their efforts to commit heists while under pressure from a government agency and powerful crime figures.', 1899, 'https://upload.wikimedia.org/wikipedia/en/a/a5/Grand_Theft_Auto_V.png', true, CURRENT_TIMESTAMP);
 
 
-
-    INSERT INTO messages (
-    title, text, game_id, shopper_id)
-    VALUES (
-    'Re: Ocarina of Time', 'is the price negotiable', 11, 1);
-
-    INSERT INTO messages (
-    title, text, game_id, shopper_id)
-    VALUES (
-    'Re: GTA V', 'Are you available to meet today?',  12, 2);
-
-    INSERT INTO messages (
-    title, text, game_id, shopper_id)
-    VALUES (
-    'Re: Super Mario Bros', 'is the price negotiable',  10, 3);
-
-    INSERT INTO messages (
-    title, text, game_id, shopper_id)
-    VALUES (
-    'Re: Animal Crossing', 'Are you available to meet today?',  8, 2);
