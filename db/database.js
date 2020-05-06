@@ -57,7 +57,10 @@ const getGame = function(gameID) {
     FROM games
     WHERE id = $1;
   `, [`${gameID}`])
-  .then(res => res.rows[0])
+  .then(res => {
+    console.log(res.rows[0])
+    return res.rows[0];
+  })
   .catch(err => {
     console.log('error message', err.stack);
     return null;

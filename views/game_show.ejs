@@ -19,16 +19,27 @@
 <body>
   <%- include('partials/_header') %>
 
+  <img width="300" src=<%= game.photo %> >
   <table>
-
+    <tr>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Price</th>
+    </tr>
+    <tr>
+      <td><%= game.title %></td>
+      <td><%= game.description %></td>
+      <td><%= game.cost %></td>
+      <td><button><i class="fa fa-heart"></i></button></td>
+    </tr>
   </table>
 
   <form method="POST" action="/favorites">
-    <i class="fa fa-heart"></i>
+
   </form>
 
 
-  <form method="POST" action="/users/<%= userID %>/inbox">
+  <form method="POST">
     <textarea placeholder="Write your message here"></textarea>
     <button type="submit" class="btn btn-light">Send message</button>
   </form>

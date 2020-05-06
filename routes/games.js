@@ -28,18 +28,32 @@ module.exports = (db) => {
 
 /* THIS IS A ROUTE  */
   router.get("/games/:gameid", (req, res) => {
-    // const userID = req.session['userid'];
+    const userID = req.session['userid'];
     // const user = getUser(userID)
     // if (!userID) {
     //   res.redirect("/login")
     //   return;
     // }
-    const { gameID } = req.params;
+    const { gameid } = req.params;
+    console.log(gameid);
+    // const { user } = req.params
 
-    getGame(gameID);
-    getUser(user);
-    let templateVars =  { newGame };
-    res.render("game_show", templateVars);
+    database.getGame(gameid)
+    .then(game => {
+      const templateVars = { game: game }
+      console.log(templateVars)
+      res.render('game_show', templateVars)
+    })
+    .catch(e => {
+      console.error(e);
+      res.send(e)
+    })
+    // database.getUser({...req.body, id: userID})
+    // .then(user => {
+    //   res.redirect(`/games/${user.id}`)
+    // })
+    // let templateVars =  { newGame };
+    // res.render("game_show", templateVars);
   });
 
   router.post("/games", (req, res) => {
