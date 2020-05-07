@@ -35,13 +35,13 @@
           </td></a>
           </a></td>
           <td>
-            <form method="POST" action="/games/:gameID/delete">
+            <form method="POST" action="/users/<%= game.id%>/delete">
                 <button type="submit" class="btn btn-outline-danger">Delete</button>
             </form>
         </td>
         <td>
-            <a href="#">
-              <button type="button" class="btn btn-outline-info">Mark As SOLD!</button>
+            <form method="POST" action="/users/<%= game.id%>">
+              <button type="submit" class="btn btn-outline-info">Mark As SOLD!</button>
             </a>
             </form>
         <%}%>

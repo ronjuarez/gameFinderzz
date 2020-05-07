@@ -125,12 +125,42 @@ module.exports = (db) => {
       })
     })
   });
+  +
+  router.post("/users/:gameID", (req, res) => {
+    const userID = req.session['userid'];
+    const { gameID  } = req.params;
+
+    !userID ? res.status(403).send('You are not authorized to change the status for this Game!') :
+    database.changeStatus(gameID)
+    .then(res => {
+      res.redirect(`/users`)
+    })
+    .catch(e => {
+      console.error(e);
+      res.send(e)
+    })
+  });
+
+  router.post('/users/:gameID/delete', (req, res) => {
+    const userID = req.session['userid']
+    const { gameID } = req.params;
+
+    !userID ? res.status(403).send('You are not authorized to delete this Game!') :
+    database.deleteGame(gameID)
+    .then(res => {
+      res.redirect(`/users`)
+    })
+    .catch(e => {
+      console.error(e);
+      res.send(e)
+    })
+  });
 
   router.post("/messages/:gameID", (req, res) => {
     const userID = req.session['userid'];
     const { gameID  } = req.params;
     const { text } = req.body;
-    console.log('req body', req.body)
+
     database.sendMessage({ text, shopper_id: userID, game_id: gameID })
     .then(newMessage => {
       console.log('newMessage', newMessage)
