@@ -29,11 +29,13 @@
     <tr>
       <td><%= game.title %></td>
       <td><%= game.description %></td>
-      <td><%= game.cost %></td>
+      <td>$<%= game.cost/100 %></td>
       <td>
         <form method="POST" action="/favorites">
         <input type="hidden" name="gameID" value="<%= game.id %>">
-        <button type="submit"><i class="fa fa-heart"></i></button>
+
+        <button type="submit" id="submit-favorite"><i class="fa fa-heart"></i></button>
+
         </form>
       </td>
     </tr>

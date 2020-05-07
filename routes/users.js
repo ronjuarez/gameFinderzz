@@ -91,12 +91,7 @@ module.exports = (db) => {
   })
 
 
-  router.get('/favorites', (req, res) => {
-    const userID = req.session['userID'];
-    getFavorites(userID);
 
-    res.render('favorites');
-  });
 
   // router.post('/favorites', (res, req) => {
   //   const userid = req.session['userid'];

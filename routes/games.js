@@ -149,22 +149,54 @@ router.post("/games/platform", (req, res) => {
   router.post('/favorites', (req, res) => {
     const userID = req.session['userid'];
     const { gameID } = req.body
-    // const { source } = req.body
 
-    const result = database.isFavorite(gameID,userID);
-    result ? database.deleteFavorite(gameID, userID) : database.addFavorite(gameID,userID);
+    // database.getUserByID(userID)
+    // .then(user => {
+    //   database.isFavorite(gameID,userID)
+    //   .then() database.deleteFavorite(gameID, userID) : database.addFavorite(gameID,userID);
+    // });
 
-    res.redirect(`/games/${gameID}`);
+    database.isFavorite(gameID,userID)
+    .then(isFaved => {
+      if (!isFaved) {
+        return database.addFavorite(gameID, userID)
+      } else {
+        return database.deleteFavorite(gameID, userID);
+      }
+    })
+    .then(() => res.redirect(`/games/${gameID}`))
+    .catch(e => {
+      console.error(e);
+      res.status(500).send(e)
+    })
+  });
 
-    // if (source === 'thumbnail') {
-    //   res.redirect('/');
-    // } else {
-    //   res.redirect(`/games/${gameID}`);
-    // }
-  // its some kind of toggle that passes selected gameid
-  //  to users favorite list
-  // we want this function to res
+  router.get('/favorites', (req, res) => {
+    const userID = req.session['userid'];
+
+    database.getUserByID(userID)
+    .then(user => {
+      database.fetchFavorites(userID)
+      .then(faves => {
+        console.log(faves)
+        let templateVars = { faves, user }
+        console.log(templateVars)
+        res.render('favorites', templateVars);
+      })
+    })
+    .catch(e => {
+      console.error(e);
+      res.status(500).send(e)
+    })
+
+    // database.getUserByID(userID)
+    // .then(user => {
+    //   database.fetchGamesByCategory(req.body.category)
+    //   .then(games => {
+    //     res.render("index",  {user, games})
+    // })
 
   });
+
   return router;
 };
