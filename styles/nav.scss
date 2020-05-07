@@ -5,9 +5,37 @@
   width: 100%;
   height: 120px;
   z-index: 1;
-  color: #ffffff;
+  color: black;
   padding: 0em 1.5em 0em 1.5em;
+  position: sticky;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
+
+.non-logo {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.nav-bar a {
+  color: white;
+  text-shadow: #333 -1px -1px 0,
+  #333 3px 3px 0;
+  font-family: fantasy;
+  font-size: large;
+}
+
+#logo {
+  font-size: xx-large;
+}
+
+// .navbar-post-new {
+//   display: flex;
+//   justify-content: flex-start;
+//   align-self: flex-end;
+// }
 
 
 @media only screen and (min-width: 1025px) {

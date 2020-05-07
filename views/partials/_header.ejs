@@ -5,22 +5,19 @@
       <link rel="stylesheet" href="/styles/nav.css" type="text/css" />
 <header>
   <nav class="nav-bar">
-    <a class="navbar-brand" href="/">FryApp</a>
+    <a id="logo" class="navbar-brand" href="/">FryApp</a>
 
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <div class="navbar-nav">
-        <a class="nav-item nav-link" href="/games/new">Post a new ad</a>
+      <div class="non-logo">
+        <a class="navbar-post-new" href="/games/new">Post a new ad</a>
         <% if(user){ %>
-        <a class="nav-item nav-link" href="/favorites">Favorites</a>
+        <a class="navbar-faves" href="/favorites">Favorites</a>
           <form method="POST" action="/logout">
-            <a class="navbar-brand">Logged in as: <%= user.email %></a>
+            <a class="navbar-email">Logged in as: <%= user.email %></a>
             <button type="submit" class="btn btn-primary">Logout</button>
           </form>
         <% } else { %>
-          <a class="nav-item nav-link" href="/login">Already Registered? Log In Here!</a>
+          <a class="navbar-email" href="/login">Already Registered? Log In Here!</a>
        <% } %>
       </div>
-    </div>
   </nav>
 </header>
