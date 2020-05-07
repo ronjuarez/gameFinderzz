@@ -1,9 +1,13 @@
-// See: https://sass-lang.com/
+/* // See: https://sass-lang.com/ */
 
-body {
-  background-color: #EEE;
 
-  h1 {
-    color: #244751;
+
+/* Tablets adaptation*/
+@media only screen and (min-width: 1024px) {
+  .mainsection {
+    flex-direction: column;
+  }
+  .container {
+    margin-top: 0px;
   }
 }

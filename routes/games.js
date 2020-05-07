@@ -91,7 +91,7 @@ router.post("/games/platform", (req, res) => {
 
     database.getGame(gameid)
     .then(game => {
-      const templateVars = { game: game, user: undefined }
+      const templateVars = { game: game, user: userID }
       console.log(templateVars)
       res.render('game_show', templateVars)
     })

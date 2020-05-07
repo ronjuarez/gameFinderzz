@@ -1,0 +1,17 @@
+.nav-bar {
+  overflow: hidden;
+  background-color: #4056A1;
+  top: 0;
+  width: 100%;
+  height: 120px;
+  z-index: 1;
+  color: #ffffff;
+  padding: 0em 1.5em 0em 1.5em;
+}
+
+
+@media only screen and (min-width: 1025px) {
+  nav {
+    background-color: coral;
+  }
+}
