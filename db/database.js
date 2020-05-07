@@ -140,7 +140,9 @@ const isFavorite = function(id) {
     FROM favorites
     WHERE id = $1;
   `, [`${id}`])
-  .then(res => res.rows[0])
+  .then(res => {
+    console.log("is favroite:", res.rows[0])
+    return res.rows[0]})
   .catch(err => {
     console.log('error message', err.stack);
     return null;
@@ -150,10 +152,10 @@ exports.isFavorite = isFavorite;
 
 const deleteFavorite = function(gameID, userID) {
   return pool.query(`
-    SELECT *
-    FROM users
-    WHERE id = $1;
-  `, [`${id}`])
+    DELETE FROM favorites
+    WHERE game_id = $1
+    AND shopper_id = $2;
+  `, [gameID, userID])
   .then(res => res.rows[0])
   .catch(err => {
     console.log('error message', err.stack);
@@ -162,13 +164,16 @@ const deleteFavorite = function(gameID, userID) {
 }
 exports.deleteFavorite = deleteFavorite;
 
-const addFavorite =  function(userID, gameID) {
+const addFavorite =  function(gameID, userID) {
   return pool.query(`
-  INSERT INTO users (name, email, password)
-  VALUES ($1, $2, $3)
+  INSERT INTO favorites (game_id, shopper_id)
+  VALUES ($1, $2)
   RETURNING *;
-  `, [`${user.name}`, `${user.email}`, `${user.password}`])
-  .then(res => res.rows[0])
+  `, [gameID, userID])
+  .then(res => {
+    console.log("addFavroite func result", res.rows[0])
+    return res.rows[0]
+  })
   .catch(err => {
     console.log('error message', err.stack);
     return null;

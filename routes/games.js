@@ -136,7 +136,7 @@ router.post("/games/platform", (req, res) => {
   });
 
   router.post("/games/:gameID", (req, res) => {
-    const userID = req.session['userID'];
+    const userID = req.session['userid'];
     const { gameID } = req.params;
 
     // need sql update/ set to update values submitted through form
@@ -147,18 +147,20 @@ router.post("/games/platform", (req, res) => {
 
 
   router.post('/favorites', (req, res) => {
-    const userID = req.session('userID');
+    const userID = req.session['userid'];
     const { gameID } = req.body
-    const { source } = req.body
+    // const { source } = req.body
 
-    const result = isFavorite(gameID,userID);
-    result ? deleteFavorite(gameID, userID) : addToFavorites(gameID,userID);
+    const result = database.isFavorite(gameID,userID);
+    result ? database.deleteFavorite(gameID, userID) : database.addFavorite(gameID,userID);
 
-    if (source === 'thumbnail') {
-      res.redirect('/');
-    } else {
-      res.redirect(`/games/${gameID}`);
-    }
+    res.redirect(`/games/${gameID}`);
+
+    // if (source === 'thumbnail') {
+    //   res.redirect('/');
+    // } else {
+    //   res.redirect(`/games/${gameID}`);
+    // }
   // its some kind of toggle that passes selected gameid
   //  to users favorite list
   // we want this function to res

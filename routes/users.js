@@ -98,6 +98,12 @@ module.exports = (db) => {
     res.render('favorites');
   });
 
+  // router.post('/favorites', (res, req) => {
+  //   const userid = req.session['userid'];
+  //   console.log(req.body)
+  //   database.addFavorite(userid, )
+  // });
+
   router.get('/messages', (req, res) => {
     const userID = req.session['userID']
     database.getUserByID(userID)

@@ -30,7 +30,12 @@
       <td><%= game.title %></td>
       <td><%= game.description %></td>
       <td><%= game.cost %></td>
-      <td><button><i class="fa fa-heart"></i></button></td>
+      <td>
+        <form method="POST" action="/favorites">
+        <input type="hidden" name="gameID" value="<%= game.id %>">
+        <button type="submit"><i class="fa fa-heart"></i></button>
+        </form>
+      </td>
     </tr>
   </table>
 
