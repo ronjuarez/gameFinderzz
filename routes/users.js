@@ -133,8 +133,8 @@ module.exports = (db) => {
 
     !userID ? res.status(403).send('You are not authorized to change the status for this Game!') :
     database.changeStatus(gameID)
-    .then(res => {
-      res.redirect(`/`)
+    .then(response => {
+      res.redirect(`/users`)
     })
     .catch(e => {
       console.error(e);
@@ -148,8 +148,8 @@ module.exports = (db) => {
 
     !userID ? res.status(403).send('You are not authorized to delete this Game!') :
     database.deleteGame(gameID)
-    .then(res => {
-      res.redirect(`/`)
+    .then(response => {
+      res.redirect(`/users`)
     })
     .catch(e => {
       console.error(e);
