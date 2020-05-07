@@ -208,9 +208,22 @@ const fetchGameMessages = function(userID, gameID) {
 }
 exports.fetchGameMessages = fetchGameMessages;
 
+const getGamesByUserID = function(userID) {
+  return pool.query(`
+    SELECT * FROM games
+    WHERE owner_id = $1;
+  `, [userID])
+  .then(res => {
+    return res.rows;
+  })
+  .catch(err => {
+    console.log('error message', err.stack)
+    return null;
+  })
+}
+exports.getGamesByUserID = getGamesByUserID;
 
-
-const sendMessage=  function(newMessage) {
+const sendMessage = function(newMessage) {
   return pool.query(`
     INSERT INTO messages (
       title,

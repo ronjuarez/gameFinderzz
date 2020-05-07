@@ -95,6 +95,18 @@ module.exports = (db) => {
     res.render('favorites');
   });
 
+  router.get('/users', (req, res) => {
+    const userID = req.session['userid'];
+    database.getUserByID(userID)
+    .then(user => {
+      database.getGamesByUserID(userID)
+      .then(userGames => {
+        let templateVars = { user, userGames }
+        res.render('dashboard', templateVars);
+      })
+    })
+  });
+
   router.get('/messages', (req, res) => {
     const userID = req.session['userid'];
 
@@ -106,7 +118,7 @@ module.exports = (db) => {
         console.log(messages)
         let templateVars = { user, messages }
         res.render('message_inbox', templateVars)
-    })
+      })
       .catch(e => {
         console.error(e);
         res.send(e)
@@ -149,6 +161,9 @@ module.exports = (db) => {
         res.send(e)
       })
     })
+
+
+
   return router;
 };
 

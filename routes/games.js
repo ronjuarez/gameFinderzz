@@ -131,7 +131,7 @@ router.post("/games/platform", (req, res) => {
     // add conditional statement so only correct user can delete game
     deleteGame(userID, gameID); // palce holder. will need to crearte function
 
-    res.redirect('/');
+    res.redirect('/users');
   });
 
   router.post("/games/:gameID", (req, res) => {

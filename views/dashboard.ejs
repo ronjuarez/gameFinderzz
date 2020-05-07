@@ -1,0 +1,54 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>FRYapp - User Profile</title>
+
+    <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
+    <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
+
+    <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
+    <script type="text/javascript" src="/scripts/app.js"></script>
+  </head>
+<body>
+
+<main>
+
+  <header>
+    <h1>Welcome back <%= user.email %>! </h1>
+    <h2>Games Dashboard</h2>
+  </header>
+  <main>
+    <table class="message-inbox">
+      <thead>
+        <tr>
+          <th scope="col">View Post</th>
+          <th scope="col">Delete Post</th>
+          <th scope="col">Mark Post as Sold</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for (let game of userGames) { %>
+          <td><a href='/games/<%= game.id %>'>
+            <img src= <%= game.photo %> style=width:300px;height:300px>
+          </td></a>
+          </a></td>
+          <td>
+            <form method="POST" action="/games/:gameID/delete">
+                <button type="submit" class="btn btn-outline-danger">Delete</button>
+            </form>
+        </td>
+        <td>
+            <a href="#">
+              <button type="button" class="btn btn-outline-info">Mark As SOLD!</button>
+            </a>
+            </form>
+        <%}%>
+      </tbody>
+    </table>
+  </main>
+</body>
+</html>
+
+</main>
