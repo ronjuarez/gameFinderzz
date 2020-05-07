@@ -8,12 +8,12 @@
       <div class="navbar-nav">
         <a class="nav-item nav-link" href="/games/new">Post a new ad</a>
         <% if(user){ %>
-        <a class="nav-item nav-link" href="/users/<%= user.userID %>/favorites">Favorites</a>
+        <a class="nav-item nav-link" href="/favorites">Favorites</a>
           <form method="POST" action="/logout">
             <a class="navbar-brand">Logged in as: <%= user.email %></a>
             <button type="submit" class="btn btn-primary">Logout</button>
           </form>
-        <% } else { %> 
+        <% } else { %>
           <a class="nav-item nav-link" href="/login">Already Registered? Log In Here!</a>
        <% } %>
       </div>

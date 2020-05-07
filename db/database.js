@@ -134,47 +134,56 @@ const getGame = function(gameID) {
   }
   exports.addNewGame = addNewGame;
 
-const isFavorite = function(id) {
+const isFavorite = function(gameID, userID) {
   return pool.query(`
     SELECT *
     FROM favorites
-    WHERE id = $1;
-  `, [`${id}`])
-  .then(res => res.rows[0])
-  .catch(err => {
-    console.log('error message', err.stack);
-    return null;
-  })
+    WHERE game_id = $1
+    AND shopper_id = $2;
+  `, [gameID, userID])
+  .then(res => {
+    console.log("IS ALREADY FAVORTIED:", res.rows[0])
+    return res.rows[0]})
+  // .catch(err => {
+  //   console.log('error message', err.stack);
+  //   return null;
+  // })
 }
 exports.isFavorite = isFavorite;
 
 const deleteFavorite = function(gameID, userID) {
   return pool.query(`
-    SELECT *
-    FROM users
-    WHERE id = $1;
-  `, [`${id}`])
+    DELETE FROM favorites
+    WHERE game_id = $1
+    AND shopper_id = $2;
+  `, [gameID, userID])
   .then(res => res.rows[0])
-  .catch(err => {
-    console.log('error message', err.stack);
-    return null;
-  })
 }
 exports.deleteFavorite = deleteFavorite;
 
-const addFavorite =  function(userID, gameID) {
+const addFavorite =  function(gameID, userID) {
   return pool.query(`
-  INSERT INTO users (name, email, password)
-  VALUES ($1, $2, $3)
+  INSERT INTO favorites (game_id, shopper_id)
+  VALUES ($1, $2)
   RETURNING *;
-  `, [`${user.name}`, `${user.email}`, `${user.password}`])
-  .then(res => res.rows[0])
-  .catch(err => {
-    console.log('error message', err.stack);
-    return null;
+  `, [gameID, userID])
+  .then(res => {
+    console.log("addFavroite FUNCTION RESULT", res.rows[0])
+    return res.rows[0]
   })
 }
 exports.addFavorite = addFavorite;
+
+const fetchFavorites = function(userID) {
+  return pool.query(`
+  SELECT favorites.*, games.photo as game_photo
+  FROM favorites
+  JOIN games ON favorites.game_id = games.id
+  WHERE shopper_id = $1;
+  `, [userID])
+  .then(res => res.rows)
+}
+exports.fetchFavorites = fetchFavorites;
 
 const fetchMessages =  function(userID) {
   return pool.query(`
