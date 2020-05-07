@@ -96,9 +96,11 @@ module.exports = (db) => {
   });
 
   router.get('/messages', (req, res) => {
-    const userID = req.session['userID']
+    const userID = req.session['userid'];
+
     database.getUserByID(userID)
     .then(user => {
+
       database.fetchMessages(userID)
       .then(messages => {
         console.log(messages)
@@ -115,9 +117,11 @@ module.exports = (db) => {
   router.post("/messages/:gameID", (req, res) => {
     const userID = req.session['userid'];
     const { gameID  } = req.params;
-
-    database.sendMessage({...req.body, shopper_id: userID, game_id: gameID })
+    const { text } = req.body;
+    console.log('req body', req.body)
+    database.sendMessage({ text, shopper_id: userID, game_id: gameID })
     .then(newMessage => {
+      console.log('newMessage', newMessage)
       res.redirect(`/messages/${newMessage.game_id}`)
     })
     .catch(e => {
@@ -128,12 +132,15 @@ module.exports = (db) => {
 
   router.get('/messages/:gameID', (req, res) => {
     const { gameID } = req.params;
-    const userID = req.session['userID']
+
+    const userID = req.session['userid']
+
     database.getUserByID(userID)
     .then(user => {
       database.fetchGameMessages(userID, gameID)
       .then(messages => {
-        let templateVars = { messages, user }
+
+        let templateVars = { messages, user, gameID, messageTitle : messages[0].title }
         res.render('game_message', templateVars)
       })
     })

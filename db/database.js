@@ -191,13 +191,16 @@ const fetchMessages =  function(userID) {
 exports.fetchMessages = fetchMessages;
 
 const fetchGameMessages = function(userID, gameID) {
-  return pool.guery(`
+  return pool.query(`
   SELECT messages.*, games.title as game_title
-  FROM messages JOIN games ON messsages.game_id = games.id
+  FROM messages JOIN games ON messages.game_id = games.id
   WHERE shopper_id = $1
-  AND game_id = $2 RETURNING *;
+  AND game_id = $2;
   `, [ userID, gameID])
-  .then() (res => res.rows[0])
+  .then(res => {
+    console.log('this', res.rows)
+    return res.rows
+  })
   .catch(err => {
     console.log('error message', err.stack);
     return null;
@@ -213,17 +216,15 @@ const sendMessage=  function(newMessage) {
       title,
       text,
       game_id,
-      shopper_id,
-      created_at
+      shopper_id
     )
-    VALUES ($1, $2, $3, $4, $5, $6)
+    VALUES ($1, $2, $3, $4)
     RETURNING *;
   `, [
-    newMessage.title,
+    'this is a title',
     newMessage.text,
     newMessage.game_id,
     newMessage.shopper_id,
-    newMessage.created_at
     ])
     .then(res => res.rows[0]);
 }

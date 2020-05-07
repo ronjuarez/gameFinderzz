@@ -39,10 +39,12 @@
   </form>
 
 
-  <form method="POST">
-    <textarea placeholder="Write your message here"></textarea>
-    <button type="submit" class="btn btn-light">Send message</button>
-  </form>
+  <div class="message-form">
+    <form method="POST" action="/messages/<%= game.id%>">
+      <input name ='text' placeholder="Write your message here"></input>
+      <button type="submit" class="btn btn-light">Send message</button>
+    </form>
+  </div>
 
 </body>
 </html>

@@ -11,25 +11,31 @@
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
     <script type="text/javascript" src="/scripts/app.js"></script>
   </head>
+<body>
 
   <%- include('partials/_header') %>
-<!-- does my function return an an array messages? if it does how do I make it so that
+<!-- does my function return an an array messages? No if it does how do I make it so that
 it will only loop and -->
-    <main>
-        <header>
-          <h1><%= msg.title%></h1>
-        </header>
+<main>
+  <header>
+    <h1><%= messageTitle%></h1>
 
-        <div class="message-container">
-          <span><%= msg.text%></span>
-        </div>
+  </header>
+  <% for (let msg of messages) { %>
+  <div class="message-container">
+    <span><%= msg.text%></span>
+  </div>
+  <% } %>
+  <div class="message-form">
+    <form method="POST" action="/messages/<%= gameID%>">
+      <input name ='text' placeholder="Write your message here"></input>
+      <button type="submit" class="btn btn-light">Send message</button>
+    </form>
+  </div>
 
-        <div class="message-form">
-          <form method="POST" action="/messages/<%= msg.game_id%>">
-            <textarea placeholder="Write your message here"></textarea>
-            <button type="submit" class="btn btn-light">Send message</button>
-          </form>
-        </div>
-    </main>
-  </body>
+</main>
+</body>
 </html>
+
+
+
