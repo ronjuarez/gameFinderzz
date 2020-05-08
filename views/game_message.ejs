@@ -8,13 +8,13 @@
 <body>
 
   <%- include('partials/_header') %>
-<!-- does my function return an an array messages? No if it does how do I make it so that
-it will only loop and -->
+
 <main>
   <div class="game-message">
     <div id="chat-box">
       <header class="header">
-        <h1>Message History</h1>
+        <h1><%= messages[0].game_title%></h1>
+        <h2>Message History</h2>
 
       </header>
       <% for (let msg of messages) { %>
