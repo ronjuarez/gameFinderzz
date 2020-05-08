@@ -1,0 +1,39 @@
+.new-game-form {
+  display: flex;
+  margin: 15% 5% 0 5%;
+  flex-direction: column;
+  align-items: center;
+  height: 500px;
+}
+
+#new-game-form__title {
+  height: 30px;
+  width: 500px;
+}
+
+.new-game-form__field-wrapper {
+margin: 1%;
+}
+
+#game-form__description {
+  width: 450px;
+}
+
+#new-game-form__cost {
+  height: 30px;
+  width: 400px;
+}
+
+#new-game-form__photo {
+  height: 30px;
+  width: 500px;
+}
+
+#create{
+  margin-right: 100px;
+  background-color: #4CAF50; /* Green */
+}
+
+#game-form__cancel{
+  color: gray;
+}
