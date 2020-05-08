@@ -1,13 +1,15 @@
 div.game-cards {
   margin: 5% 5% 0 5%;
   border: 4px solid black;
-  // display: flex;
+  display: flex;
 }
 
-
+#filters {
+  margin-top: 12%;
+}
 
 div.game-cards-show {
-  margin: 10% 5% 0 5%;
+  margin: 15% 5% 0 5%;
   border: 4px solid black;
   display: flex;
 }
@@ -22,6 +24,7 @@ div.game-cards-show {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  // overflow: auto;
 }
 
 .game-title{

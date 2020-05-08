@@ -1,38 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
+  <link rel="stylesheet" href="/styles/message_inbox.css" type="text/css" />
   <title>FRYapp - User Inbox</title>
 
 </head>
   <body>
     <%- include('partials/_header') %>
 
-    <main>
+    <!-- <main>
       <table class="message-inbox">
-</head>
-  <body>
+</head> -->
+  <!-- <body> -->
     <%- include('partials/_header') %>
 
-    <main>
-      <table class="message-inbox" style="margin: 15%;">
-        <thead>
-          <tr>
-            <th scope="col">Game</th>
-            <th scope="col">Message Title</th>
-            <th scope="col">Sent On</th>
-          </tr>
-        </thead>
-        <tbody>
+    <main id="main">
+      <div>
+
+          <div class="heading">
+            <h1>See your messages here:</h1>
+            <!-- <p>Message Title</p>
+            <p>Sent On</p> -->
+          </div>
+
+        <div class="items">
           <% for (let msg of messages) { %>
-            <td><a href='/messages/<%= msg.game_id%>'>
+            <p class="messages">Messages about posting: <a href='/messages/<%= msg.game_id%>'>
               <%= msg.game_title %>
-            </a></td>
-            <td><%= msg.title %></td>
-            <td><%= msg.created_at%></td>
+            </a></p>
+            <!-- <p><%= msg.title %></p>
+            <p><%= msg.created_at%></p> -->
           <%}%>
-        </tbody>
-      </table>
+        </div>
+      </div>
     </main>
   </body>
 </html>
