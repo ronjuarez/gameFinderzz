@@ -268,6 +268,7 @@ exports.getGamesByUserID = getGamesByUserID;
 const sendMessage = function(newMessage) {
   return pool.query(`
     INSERT INTO messages (
+      title,
       text,
       game_id,
       shopper_id
@@ -275,6 +276,7 @@ const sendMessage = function(newMessage) {
     VALUES ($1, $2, $3, $4)
     RETURNING *;
   `, [
+    'this is a title',
     newMessage.text,
     newMessage.game_id,
     newMessage.shopper_id,
