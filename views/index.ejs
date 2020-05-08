@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <link rel="stylesheet" href="/styles/index.scss.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/filters.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/game_cards.css" type="text/css" />
 
     <title>Home Page</title>
   </head>
@@ -9,46 +10,59 @@
   <body>
     <%- include('partials/_header') %>
     <h1>Pick the category or check our latest games!</h1>
-    <form action="/games/platform" method="POST">
-      <label form="platform-filter">Select a Game Category:</label>
-      <select id="platform-filter" name="category">
-        <option value="" disabled selected>Select platform</option>
-        <option value="Nintendo Switch">Nintendo Switch</option>
-        <option value="Nintendo 3DS">Nintendo 3DS</option>
-        <option value="Xbox one">XBOX one</option>
-        <option value="PC">PC</option>
-        <option value="Sony PS4">Sony PS4</option>
-        <option value="Retro">Retro</option>
-      </select>
-      <button type="submit" class="btn btn-light" id="category_filter">Filter by platform</button>
-  </form>
-    <form action="/games/filter" method="POST">
-      <label form="filter-form">Filter by price</label>
-      <select id="filter-form" name="filter">
-        <option value="" disabled selected>Select filter</option>
-        <option value="ascending">Low to High</option>
-        <option value="descending">High to Low</option>
-      </select>
-      <button type="submit" class="btn btn-light" id="price_filter">Filter by price</button>
-    </form>
-  <table class="table">
-    <tr>
+    <div id="filters">
+      <div>
+        <form id="filter-platform" action="/games/platform" method="POST">
+          <label form="platform-filter">Select a Game Category: </label>
+          <select id="platform-filter" name="category">
+            <option value="" disabled selected>Select platform</option>
+            <option value="Nintendo Switch">Nintendo Switch</option>
+            <option value="Nintendo 3DS">Nintendo 3DS</option>
+            <option value="Xbox one">XBOX one</option>
+            <option value="PC">PC</option>
+            <option value="Sony PS4">Sony PS4</option>
+            <option value="Retro">Retro</option>
+          </select>
+          <button type="submit" class="btn btn-light" id="category_filter">Filter by platform</button>
+        </form>
+      </div>
+
+      <div id="filter-price">
+        <form action="/games/filter" method="POST">
+          <label form="filter-form">Filter by price</label>
+          <select id="filter-form" name="filter">
+            <option value="" disabled selected>Select filter</option>
+            <option value="ascending">Low to High</option>
+            <option value="descending">High to Low</option>
+          </select>
+          <button type="submit" class="btn btn-light" id="price_filter">Filter by price</button>
+        </form>
+    </div>
+    </div>
       <% for (let game of games) { %>
-      <th>Cover Art</th>
-      <th>Title</th>
-      <th>Platform</th>
-      <th>Description</th>
-      <th>Price</th>
-    </tr>
-    <tr>
-      <td><a href="http://localhost:8080/games/<%= game.id %>"><img src=<%= game.photo %> style=width:300px;height:300px></td></a>
-      <td><%= game.title %></td>
-      <td><%= game.category %></td>
-      <td><%= game.description %></td>
-      <td>$<%= game.cost/100 %></td>
-    </tr>
+    <div class="game-cards">
+      <div class="photo-container">
+        <a href="http://localhost:8080/games/<%= game.id %>"><img src=<%= game.photo %> style=width:300px;height:300px></a>
+      </div>
+      <header id="header">
+        <div class="game-title">
+          <p><%= game.title %></p>
+        </div>
+        <div class="game-category">
+          <p>Category: <%= game.category %></p>
+        </div>
+        <div class="game-cost">
+          <p>$<%= game.cost/100 %></p>
+        </div>
+
+      <div class="game-description">
+        <p><%= game.description %></p>
+      </div>
+
+      </header>
+
+    </div>
     <% } %>
-  </table>
 </body>
 </html>
 

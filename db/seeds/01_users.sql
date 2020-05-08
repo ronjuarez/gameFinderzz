@@ -150,7 +150,7 @@
     INSERT INTO games (
     owner_id, title, category, description, cost, photo, is_active, created_at)
     VALUES (
-    10, 'Super Mario Bros', 'Retro', 'Timeless classic that doesnt need an introduction', 4999, 'https://upload.wikimedia.org/wikipedia/en/0/03/Super_Mario_Bros._box.png', true, CURRENT_TIMESTAMP);
+    10, 'Super Mario Bros', 'Retro', 'Super Mario Bros. is frequently cited as one of the greatest video games of all time, with praise on its precise controls. It is one of the bestselling games of all time, with more than 40 million physical copies.', 4999, 'https://upload.wikimedia.org/wikipedia/en/0/03/Super_Mario_Bros._box.png', true, CURRENT_TIMESTAMP);
     INSERT INTO games (
     owner_id, title, category, description, cost, photo, is_active, created_at)
     VALUES (

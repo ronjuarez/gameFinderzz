@@ -1,0 +1,22 @@
+#chat-box {
+  display: flex;
+  margin: 25% 25%;
+  flex-direction: column;
+  border: 2px solid black;
+  padding: 5%;
+  width: 50%;
+  // align-items: center;
+  // justify-content: left;
+}
+
+// .game-message {
+//   display: flex;
+//   justify-content: left;
+// }
+
+#message-box {
+  height: 30px;
+  width: 65%;
+  box-sizing: content-box;
+  border-bottom: cornflowerblue;
+}
