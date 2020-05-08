@@ -3,21 +3,37 @@
 
       <!-- Nav CSS -->
       <link rel="stylesheet" href="/styles/nav.css" type="text/css" />
+      <!-- Google Font for Logo -->
+      <link href="https://fonts.googleapis.com/css?family=Rubik+Mono+One&display=swap" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css?family=Indie+Flower&display=swap" rel="stylesheet">
 <header>
   <nav class="nav-bar">
-    <a id="logo" class="navbar-brand" href="/">FryApp</a>
 
-      <div class="non-logo">
-        <a class="navbar-post-new" href="/games/new">Post a new ad</a>
+    <div class="logo">
+      <a class="navbar-brand" href="/"><p>GameFinderzz</p></a>
+    </div>
+
+    <div class="nav-buttons">
+      <div class="post-new">
+        <span></span>
+          <a href="/games/new">Post a new ad</a>
+        </span>
+      </div>
+
+      <div class="faves">
         <% if(user){ %>
-        <a class="navbar-faves" href="/favorites">Favorites</a>
+        <a href="/favorites">Favorites</a>
+      </div>
+
+      <div class="login">
           <form method="POST" action="/logout">
-            <a class="navbar-email">Logged in as: <%= user.email %></a>
+            <a>Logged in as: <%= user.email %></a>
             <button type="submit" class="btn btn-primary">Logout</button>
           </form>
         <% } else { %>
-          <a class="navbar-email" href="/login">Already Registered? Log In Here!</a>
-       <% } %>
+          <a href="/login">Already Registered? Log In Here!</a>
+        <% } %>
       </div>
+    </div>
   </nav>
 </header>
