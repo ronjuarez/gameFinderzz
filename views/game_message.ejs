@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-
+    <link rel="stylesheet" href="/styles/message.css" type="text/css" />
     <title>FRYapp - Messages</title>
   </head>
 <body>
@@ -10,10 +10,10 @@
   <%- include('partials/_header') %>
 <!-- does my function return an an array messages? No if it does how do I make it so that
 it will only loop and -->
-<main>
-  <header>
-    <h1><%= messageTitle%></h1>
-
+<section id="main-body">
+  <div id="chat-box">
+  <header id="message-title">
+    <p><%= messages[0].game_title%></p>
   </header>
   <% for (let msg of messages) { %>
   <div class="message-container">
@@ -26,8 +26,8 @@ it will only loop and -->
       <button type="submit" class="btn btn-light">Send message</button>
     </form>
   </div>
-
-</main>
+</div>
+</section>
 </body>
 </html>
 

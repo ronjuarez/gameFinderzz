@@ -1,0 +1,15 @@
+#chat-box {
+  display: flex
+  display: flex ;
+  justify-content: center;
+  flex-direction: column;
+};
+
+
+#message-container {
+
+};
+
+#message-form {
+
+}

@@ -16,6 +16,12 @@ const express = require('express');
 const router  = express.Router();
 const database = require('../db/database')
 
+const accountSid = 'ACf3ebfc4ff858da69b238f82671bf53af';
+const authToken = '75adada3fe2116ab5cc88626515ddebe';
+const client = require('twilio')(accountSid, authToken);
+
+
+
 module.exports = (db) => {
   // router.get("/", (req, res) => {
   //   db.query(`SELECT * FROM users;`)
@@ -126,7 +132,7 @@ module.exports = (db) => {
       })
     })
   });
-  +
+
   router.post("/users/:gameID", (req, res) => {
     const userID = req.session['userid'];
     const { gameID  } = req.params;
@@ -149,7 +155,7 @@ module.exports = (db) => {
     !userID ? res.status(403).send('You are not authorized to delete this Game!') :
     database.deleteGame(gameID)
     .then(response => {
-      res.redirect(`/users`)
+      res.redirect('/users')
     })
     .catch(e => {
       console.error(e);
@@ -159,19 +165,27 @@ module.exports = (db) => {
 
   router.post("/messages/:gameID", (req, res) => {
     const userID = req.session['userid'];
-    const { gameID  } = req.params;
+    const { gameID } = req.params;
     const { text } = req.body;
 
     database.sendMessage({ text, shopper_id: userID, game_id: gameID })
-    .then(newMessage => {
-      console.log('newMessage', newMessage)
-      res.redirect(`/messages/${newMessage.game_id}`)
-    })
-    .catch(e => {
-      console.error(e);
-      res.send(e)
-    })
+      .then(newMessage => {
+        client.messages
+          .create({
+            body: 'Your game post has recieved a new message!',
+            from: '+12057403800',
+            to: '+16475152223'
+          })
+          .then(message => {
+            res.redirect(`/messages/${newMessage.game_id}`)
+          })
+      })
+      .catch(e => {
+        console.error(e);
+        res.send(e)
+      })
   });
+
 
   router.get('/messages/:gameID', (req, res) => {
     const { gameID } = req.params;
