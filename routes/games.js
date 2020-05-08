@@ -118,6 +118,7 @@ router.post("/games/platform", (req, res) => {
 
     database.addNewGame({...req.body, owner_id: userID})
     .then(newGame => {
+      console.log(newGame)
     res.redirect(`/games/${newGame.id}`)
     })
     .catch(e => {

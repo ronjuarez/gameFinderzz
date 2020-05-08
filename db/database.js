@@ -40,6 +40,7 @@ const fetchGames = function() {
   return pool.query(`
     SELECT *
     FROM games
+    WHERE is_active = true
     ORDER BY created_at DESC
     LIMIT 10;
   `)
@@ -127,7 +128,7 @@ const getGame = function(gameID) {
       newGame.title,
       newGame.category,
       newGame.description,
-      newGame.cost,
+      newGame.cost * 100,
       newGame.photo
       ])
       .then(res => res.rows[0]);
@@ -272,7 +273,7 @@ const sendMessage = function(newMessage) {
       game_id,
       shopper_id
     )
-    VALUES ($1, $2, $3, $4)
+    VALUES ($1, $2, $3)
     RETURNING *;
   `, [
     newMessage.text,
