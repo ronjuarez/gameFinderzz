@@ -2,7 +2,8 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-
+    <link rel="stylesheet" href="/styles/dashboard.css" type="text/css" />
+    <!-- <link rel="stylesheet" href="/styles/game_cards.css" type="text/css" /> -->
     <title>FRYapp - User Profile</title>
   </head>
 <body>
@@ -13,36 +14,37 @@
     <h1>Welcome back <%= user.email %>! </h1>
     <h2>Games Dashboard</h2>
   </header>
-  <main>
-    <table class="message-inbox">
-      <thead>
-        <tr>
-          <th scope="col">View Post</th>
-          <th scope="col">Delete Post</th>
-          <th scope="col">Mark Post as Sold</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% for (let game of userGames) { %>
-          <td><a href='/games/<%= game.id %>'>
-            <img src= <%= game.photo %> style=width:300px;height:300px>
-          </td></a>
-          </a></td>
-          <td>
-            <form method="POST" action="/users/<%= game.id%>/delete">
-                <button type="submit" class="btn btn-outline-danger">Delete</button>
-            </form>
-        </td>
-        <td>
-            <form method="POST" action="/users/<%= game.id%>">
-              <button type="submit" class="btn btn-outline-info">Mark As SOLD!</button>
-            </a>
-            </form>
-        <%}%>
-      </tbody>
-    </table>
+  <section id="user-dashboard">
+    <div class="game-cards">
+      <% for (let game of userGames) { %>
+        <div>
+        <a href='/games/<%= game.id %>'>
+          <img class="photo-container" src= <%= game.photo %> style=width:300px;height:300px>
+        </a>
+      </div>
+
+      <header id="header">
+        <div id="delete">
+          <form method="POST" action="/users/<%= game.id%>/delete">
+            <button type="submit" class="btn btn-danger btn-lg">Delete</button>
+          </form>
+        </div>
+
+        <div id="sold">
+          <form method="POST" action="/users/<%= game.id%>">
+            <button type="submit" class="btn btn-success btn-lg">Mark As SOLD!</button>
+          </form>
+        </div>
+      </header>
+      <%}%>
+
+    </div>
+    </section>
   </main>
+
 </body>
 </html>
-
-</main>
+<!-- Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
