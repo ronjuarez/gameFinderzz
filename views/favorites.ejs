@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="stylesheet" href="/styles/faves.css" type="text/css" />
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,17 +11,13 @@
 <body>
   <%- include('partials/_header') %>
 
-  <table>
-    <tr>
-
-    </tr>
-    <tr>
-      <% for (let fave of faves) {%>
-      <td><%= fave.game_title %></td>
-      <td></td>
-      <td><a href="/games/<%= fave.game_id %>"><img src="<%= fave.game_photo %>"></a></td>
+  <div id="faves-grid">
+    <% for (let fave of faves) {%>
+      <div><%= fave.game_title %></div>
+      <div id="photo-container">
+        <a href="/games/<%= fave.game_id %>"><img src="<%= fave.game_photo %>"></a>
+      </div>
       <% } %>
-      </tr>
-  </table>
+  </div>
 </body>
 </html>

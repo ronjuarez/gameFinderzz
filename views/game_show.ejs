@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="stylesheet" href="/styles/game_cards.css" type="text/css" />
+
 
       <!-- script for favorite icon -->
       <script src="https://kit.fontawesome.com/45dd319295.js" crossorigin="anonymous"></script>
@@ -9,11 +11,92 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Buy this game</title>
 </head>
+
 <body>
   <%- include('partials/_header') %>
 
-  <img width="300" src=<%= game.photo %> >
-  <table>
+
+  <div class="game-cards-show">
+    <div class="photo-container">
+      <img width="300" src=<%= game.photo %> >
+    </div>
+    <header id="header">
+      <div class="game-title">
+        <p><%= game.title %></p>
+      </div>
+
+      <div class="game-cost">
+        <p>$<%= game.cost/100 %></p>
+      </div>
+
+    <div class="game-description">
+      <p><%= game.description %></p>
+    </div>
+
+    <div class="message-form">
+      <form method="POST" action="/messages/<%= game.id%>">
+        <input id="message-box" name ='text' placeholder="Write your message here"></input>
+        <button id="message-submit" type="submit" class="btn btn-primary">Send message</button>
+      </form>
+    </div>
+
+
+    <form method="POST" action="/favorites">
+      <input type="hidden" name="gameID" value="<%= game.id %>">
+      <button type="submit" id="submit-favorite"><i class="fa fa-heart"></i></button>
+    </form>
+
+
+    </header>
+
+  </div>
+
+
+<!-- Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+
+
+  <!-- <div id="game-photo">
+    <img width="300" src=<%= game.photo %> >
+  </div>
+
+  <div id="game-info">
+    <table>
+      <tr>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Price</th>
+      </tr>
+      <tr>
+        <td><%= game.title %></td>
+        <td><%= game.description %></td>
+        <td>$<%= game.cost/100 %></td>
+        <td>
+          <form method="POST" action="/favorites">
+          <input type="hidden" name="gameID" value="<%= game.id %>">
+
+          <button type="submit" id="submit-favorite"><i class="fa fa-heart"></i></button>
+
+          </form>
+        </td>
+      </tr>
+    </table>
+
+  </div> -->
+
+  <!-- <br>
+
+  <div class="message-form">
+    <form method="POST" action="/messages/<%= game.id%>">
+      <input name ='text' placeholder="Write your message here"></input>
+      <button type="submit" class="btn btn-light">Send message</button>
+    </form>
+  </div> -->
+
+  <!-- <table>
     <tr>
       <th>Title</th>
       <th>Description</th>
@@ -32,19 +115,13 @@
         </form>
       </td>
     </tr>
-  </table>
+  </table> -->
 
   <form method="POST" action="/favorites">
 
   </form>
 
 
-  <div class="message-form">
-    <form method="POST" action="/messages/<%= game.id%>">
-      <input name ='text' placeholder="Write your message here"></input>
-      <button type="submit" class="btn btn-light">Send message</button>
-    </form>
-  </div>
 
 </body>
 </html>

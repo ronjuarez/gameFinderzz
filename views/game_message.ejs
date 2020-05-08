@@ -2,31 +2,41 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <link rel="stylesheet" href="/styles/message.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/messages.css" type="text/css" />
     <title>FRYapp - Messages</title>
   </head>
 <body>
 
   <%- include('partials/_header') %>
+<!-- does my function return an an array messages? No if it does how do I make it so that
+it will only loop and -->
+<main>
+  <div class="game-message">
+    <div id="chat-box">
+      <header class="header">
+        <h1>Message History</h1>
 
-  <header id="message-title">
-    <p><%= messages[0].game_title%></p>
-  </header>
-  <% for (let msg of messages) { %>
-  <div class="message-container">
-    <span><%= msg.text%></span>
+      </header>
+      <% for (let msg of messages) { %>
+      <div class="message-container">
+        <span><%= msg.text%></span>
+      </div>
+      <% } %>
+      <div class="message-form">
+        <form method="POST" action="/messages/<%= gameID%>">
+          <input id="message-box" name ='text' placeholder="Write your message here"></input>
+          <button type="submit" class="btn btn-primary">Send message</button>
+        </form>
+      </div>
+
+    </div>
   </div>
-  <% } %>
-  <div class="message-form">
-    <form method="POST" action="/messages/<%= gameID%>">
-      <input name ='text' placeholder="Write your message here"></input>
-      <button type="submit" class="btn btn-light">Send message</button>
-    </form>
-  </div>
-</div>
-</section>
+</main>
 </body>
 </html>
 
-
+<!-- Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 

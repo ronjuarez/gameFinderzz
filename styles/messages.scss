@@ -1,0 +1,21 @@
+#chat-box {
+  display: flex;
+  margin: 25% 25%;
+  flex-direction: column;
+  border: 2px solid black;
+  padding: 5%;
+  width: 50%;
+  // align-items: center;
+  // justify-content: left;
+}
+
+.header {
+  border-bottom: 1px solid rgba(241, 204, 178, 0.993);
+}
+
+#message-box {
+  height: 30px;
+  width: 65%;
+  box-sizing: content-box;
+  border-bottom: cornflowerblue;
+}

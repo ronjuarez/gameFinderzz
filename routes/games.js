@@ -53,6 +53,8 @@ module.exports = (db) => {
         console.log('error message', err.stack);
         return null;
       });
+    } else {
+      res.redirect('/')
     }
   });
 });
@@ -64,17 +66,21 @@ router.post("/games/platform", (req, res) => {
 //   res.redirect("/login")
 //   return;
 // }
-  database.getUserByID(userID)
-  .then(user => {
-    database.fetchGamesByCategory(req.body.category)
-    .then(games => {
-      res.render("index",  {user, games})
-  })
-  .catch(err => {
-    console.log('error message', err.stack);
-    return null;
-  });
-});
+  if (req.body.category) {
+    database.getUserByID(userID)
+    .then(user => {
+      database.fetchGamesByCategory(req.body.category)
+      .then(games => {
+        res.render("index",  {user, games})
+    })
+      .catch(err => {
+        console.log('error message', err.stack);
+        return null;
+      });
+    });
+  } else {
+    res.redirect('/')
+  }
 });
 
 /* THIS IS A ROUTE  */

@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-
+    <link rel="stylesheet" href="/styles/game_new.css" type="text/css" />
     <title>FRYapp - Add New Post</title>
   </head>
 
@@ -12,12 +12,12 @@
     <%- include('partials/_header') %>
     <form action="/games" method="post" id="new-game-form" class="new-game-form">
       <div class="new-game-form__field-wrapper">
-        <label for="new-game-form__title">Game Title</label>
-        <input type="text" name="title" placeholder="Title" id="new-game-form__title">
+        <!-- <label for="new-game-form__title">Game Title</label> -->
+        <input type="text" name="title" placeholder="Enter game title" id="new-game-form__title">
       </div>
 
       <div class="new-game-form__field-wrapper">
-        <label form="new-game-form_category">Select a Game Category:</label>
+        <label form="new-game-form_category">Select a Category:</label>
         <select id="new-game-form__category" name ="category">
           <option value="nintendo-switch">Nintendo Switch</option>
           <option value="nintendo-3ds">Nintendo 3DS</option>
@@ -29,23 +29,27 @@
       </div>
 
       <div class="new-game-form__field-wrapper">
-        <label for="new-game-form__description">Description</label>
-        <textarea placeholder="Description" name="description" id="game-form__description" cols="30" rows="10"></textarea>
+        <!-- <label for="new-game-form__description">Description</label> -->
+        <textarea placeholder="Add a description" name="description" id="game-form__description" cols="30" rows="10"></textarea>
       </div>
 
       <div class="new-game-form__field-wrapper">
-        <label for="new-game-form__cost">List Price:</label>
-        <input placeholder="Cost" type="number" name="cost" id="new-game-form__cost">
+        <!-- <label for="new-game-form__cost">List Price:</label> -->
+        <input placeholder="Enter item price" type="number" name="cost" id="new-game-form__cost">
       </div>
 
       <div class="new-game-form__field-wrapper">
-        <label for="new-game-form__image">Image</label>
-        <input placeholder="Image" type="text" name="photo" id="new-game-form__photo">
+        <!-- <label for="new-game-form__image">Image</label> -->
+        <input placeholder="Enter image URL" type="text" name="photo" id="new-game-form__photo">
       </div>
 
       <div class="new-game-form__field-wrapper">
-        <button>Create</button>
+        <button id="create" type="button" class="btn btn-secondary">Create</button>
         <a id="game-form__cancel" href="#">Cancel</a>
       </div>
   </form>
 </body>
+<!-- Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
