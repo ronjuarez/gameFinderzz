@@ -169,17 +169,17 @@ module.exports = (db) => {
     const { text } = req.body;
 
     database.sendMessage({ text, shopper_id: userID, game_id: gameID })
-      .then(newMessage => {
-        client.messages
-          .create({
-            body: 'Your game post has recieved a new message!',
-            from: '+12057403800',
-            to: '+16475152223'
-          })
-          .then(message => {
+      // .then(newMessage => {
+        // client.messages
+        //   .create({
+        //     body: 'Your game post has recieved a new message!',
+        //     from: '+12057403800',
+        //     to: '+16475152223'
+        //   })
+          .then(newMessage => {
             res.redirect(`/messages/${newMessage.game_id}`)
           })
-      })
+      // })
       .catch(e => {
         console.error(e);
         res.send(e)
